@@ -1,0 +1,33 @@
+{
+  "name": "cookacon-provider",
+  "version": "1.0.0",
+  "description": "provider for the cookacon platform",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "test": "test",
+    "start": "node ./dist/app.js",
+    "start-dev-mode": "nodemon -e ts  --exec \"npm run dev-mode\"",
+    "dev-mode": "tsc && node ./dist/app.js"
+  },
+  "author": "Dexaf",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.6",
+    "@types/bcrypt": "^5.0.2",
+    "@types/express-validator": "^3.0.0",
+    "@types/jsonwebtoken": "^9.0.5",
+    "nodemon": "^3.0.2",
+    "typescript": "^5.3.3"
+  }
+}

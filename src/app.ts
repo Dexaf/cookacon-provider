@@ -7,6 +7,7 @@ import bodyParserMiddleware from './middlewares/body-parser.middleware.js';
 import headersMiddleware from './middlewares/headers.middleware.js';
 import errorMiddleware from './middlewares/error.middleware.js';
 import crashHandlingRoutine from './utils/crashHandlingRoutine.js';
+import userDataRouter from './routes/user-data.routes.ts/user-data.routes.js';
 
 const main = async () => {
   try {
@@ -17,12 +18,14 @@ const main = async () => {
       await connect()
 
       //SECTION - MIDDLEWARES
+      app.use(express.json({ limit: '1mb' }));
       app.use(bodyParserMiddleware);
       app.use(headersMiddleware);
       //!SECTION - MIDDLEWARES
 
       //SECTION - ROUTES
       app.use('/Auth', authenticationRouter);
+      app.use('/UserData', userDataRouter);
       //!SECTION - ROUTES
 
       //NOTE - error middleware need to be here to catch errors from the route
@@ -34,7 +37,7 @@ const main = async () => {
     else
       throw new Error("CONFIG NOT DEFINED")
 
-  } catch (error) {
+  } catch (error: any) {
     //code for when the env param fetch crashes
     crashHandlingRoutine(error);
   }

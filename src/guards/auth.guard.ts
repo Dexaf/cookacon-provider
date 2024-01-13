@@ -18,7 +18,7 @@ export const isAuthGuard = (req: CustomRequest, res: express.Response, next: exp
 
   try {
     decodedToken = jwt.verify(token, envs!.JWT_SECRET) as JwtData;
-  } catch (err) {
+  } catch (err: any) {
     if (err.message === "jwt expired")
       throw new ErrorExt('JWT_EXPIRED', 500);
     else

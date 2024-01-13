@@ -8,7 +8,7 @@ import { UserModel } from "../models/schemas/user.schema.js";
 import { ErrorExt } from "../models/extensions/error.extension.js";
 import { envs } from "../config.js";
 import { errorHandlingRoutine, validationHandlingRoutine } from "../utils/errorHandlingRoutines.js";
-import UserInterface from "../models/dto/res/user.interface.js";
+import UserDto from "../models/dto/res/user.dto.js";
 import { CustomRequest } from "../models/extensions/request.extension.js";
 
 export const signOn = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -64,14 +64,14 @@ export const logIn = async (req: express.Request, res: express.Response, next: e
 }
 
 export const getUser = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
-  const user = await UserModel.findById(req.user.id)
-  if(user) {
-    const userData: UserInterface = {
-      username: user.username
-    }
-    res.send(userData);
+  const user = await UserModel.findById(req.user!.id)
+
+  if (!user) {
+    throw new ErrorExt("USERNAME_NO_MATCH", 404);
   }
-  else {
-    res.status(204).send();
+
+  const userData: UserDto = {
+    username: user.username
   }
+  res.send(userData);
 }

@@ -6,6 +6,8 @@
     "sourceMap": true,
     "rootDir": "./src", /* Specify the root folder within your source files. */
     "outDir": "./dist", /* Specify an output folder for all emitted files. */
+    "types": ["node"],
+    "strict": true
   },
   "include": [
     "src/**/*"

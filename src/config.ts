@@ -4,7 +4,7 @@ let result
 
 try {
   result = dotenv.config()
-} catch (error) {
+} catch (error: any) {
   throw new Error(error)
 }
 

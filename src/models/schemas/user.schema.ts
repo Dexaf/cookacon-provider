@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
 
 const userSchema = new mongoose.Schema({
   _id: ({
@@ -12,6 +12,24 @@ const userSchema = new mongoose.Schema({
   password: ({
     type: String,
     required: true
+  }),
+  name: ({
+    type: String
+  }),
+  surname: ({
+    type: String
+  }),  
+  countryCode: ({
+    type: String
+  }),  
+  description: ({
+    type: String
+  }),
+  profilePictureUrl: ({
+    type: String
+  }),
+  email: ({
+    type: String
   })
 })
 

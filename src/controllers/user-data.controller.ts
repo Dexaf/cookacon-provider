@@ -32,15 +32,16 @@ export const postProfile = async (req: CustomRequest, res: express.Response, nex
       imagePath = projectRoot + relativeImagePath;
     }
 
-    user.name = body.name;
-    user.surname = body.surname;
-    user.countryCode = body.countryCode;
-    user.description = body.description;
-    user.email = body.email;
-    user.profilePictureUrl = relativeImagePath;
+    user.name = body.name ?? user.name;
+    user.surname = body.surname ?? user.surname;
+    user.countryCode = body.countryCode ?? user.countryCode;
+    user.description = body.description ?? user.description;
+    user.email = body.email ?? user.email;
 
-    if (imagePath && body.profilePictureBase64)
+    if (imagePath && body.profilePictureBase64) {
       await saveProfilePicture(body.profilePictureBase64, imagePath);
+      user.profilePictureUrl = relativeImagePath ?? user.profilePictureUrl;
+    }
     await user.save();
 
     return res.status(200).send();

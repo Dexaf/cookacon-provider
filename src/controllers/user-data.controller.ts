@@ -13,6 +13,7 @@ export const postProfile = async (req: CustomRequest, res: express.Response, nex
   try {
     validationHandlingRoutine(req, res);
     let user = await UserModel.findById({ _id: req.user!.id })
+    
     if (!user) {
       throw new ErrorExt("USERNAME_NO_MATCH", 404);
     }

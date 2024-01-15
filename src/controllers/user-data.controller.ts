@@ -6,16 +6,16 @@ import { UserModel } from "../models/schemas/user.schema.js";
 import { ErrorExt } from "../models/extensions/error.extension.js";
 import path from "path";
 import { base64MimeType } from "../utils/getBase64MimeType.js";
-import { saveProfilePicture } from "../utils/saveProfilePicture.js";
+import { savePicture } from "../utils/savePicture.js";
 
 //post profile data
 export const postProfile = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
   try {
-    validationHandlingRoutine(req, res);
+    validationHandlingRoutine(req);
     let user = await UserModel.findById({ _id: req.user!.id })
     
     if (!user) {
-      throw new ErrorExt("USERNAME_NO_MATCH", 404);
+      throw new ErrorExt("USER_NO_MATCH", 404);
     }
 
     const body = req.body as PostProfileDtoReq;
@@ -28,11 +28,10 @@ export const postProfile = async (req: CustomRequest, res: express.Response, nex
     user.email = body.email ?? user.email;
 
     let relativeImagePath: string | undefined = undefined;
-    let imagePath: string | undefined = undefined;
 
     if (body.profilePictureBase64) {
       const imageExtension = base64MimeType(body.profilePictureBase64)
-      relativeImagePath = `\\public\\profilePictures\\${user.username}.${imageExtension.split("/")[1]}`
+      relativeImagePath = `\\public\\${user.id}\\pic.${imageExtension.split("/")[1]}`
       user.profilePictureUrl = relativeImagePath;
     }
 
@@ -44,8 +43,7 @@ export const postProfile = async (req: CustomRequest, res: express.Response, nex
     */
     if (body.profilePictureBase64) {
       const projectRoot = path.resolve(process.cwd());
-      imagePath = projectRoot + relativeImagePath;
-      await saveProfilePicture(body.profilePictureBase64, imagePath);
+      await savePicture(body.profilePictureBase64, projectRoot + relativeImagePath);
     }
     return res.status(200).send();
   } catch (error: any) {

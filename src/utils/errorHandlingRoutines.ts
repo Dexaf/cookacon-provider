@@ -2,7 +2,7 @@ import ev from "express-validator";
 import express from "express";
 import { ErrorExt } from "../models/extensions/error.extension.js";
 
-export const validationHandlingRoutine = (req: express.Request, res: express.Response) => {
+export const validationHandlingRoutine = (req: express.Request) => {
   const errors = ev.validationResult(req).array({ onlyFirstError: true });
   if (errors.length !== 0)
     throw new ErrorExt("VALIDATION_ERROR", 400, errors);

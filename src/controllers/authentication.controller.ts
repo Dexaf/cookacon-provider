@@ -2,6 +2,7 @@ import express from "express";
 import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+import { promises as fsPromises } from 'fs';
 
 import { LogInDtoReq, SignOnDtoReq } from "../models/dto/req/authentication.dto.req.js";
 import { UserModel } from "../models/schemas/user.schema.js";
@@ -13,7 +14,7 @@ import { CustomRequest } from "../models/extensions/request.extension.js";
 
 export const signOn = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
-    validationHandlingRoutine(req, res);
+    validationHandlingRoutine(req);
 
     const body = req.body as SignOnDtoReq;
 
@@ -24,6 +25,10 @@ export const signOn = async (req: express.Request, res: express.Response, next: 
       password: hashedPass
     });
     await newUser.save();
+
+    //create default user dirs
+    await fsPromises.mkdir(`\\public\\${newUser._id}`);
+    await fsPromises.mkdir(`\\public\\${newUser._id}\\recipes`);
 
     const userData = {
       id: newUser._id,
@@ -37,13 +42,13 @@ export const signOn = async (req: express.Request, res: express.Response, next: 
 
 export const logIn = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
-    validationHandlingRoutine(req, res);
+    validationHandlingRoutine(req);
 
     const body = req.body as LogInDtoReq;
 
     const user = await UserModel.findOne({ username: body.username });
     if (!user)
-      throw new ErrorExt("USERNAME_NO_MATCH", 404);
+      throw new ErrorExt("USER_NO_MATCH", 404);
 
     const isPasswordMatching = await bcrypt.compare(body.password, user.password);
 
@@ -67,7 +72,7 @@ export const getUser = async (req: CustomRequest, res: express.Response, next: e
   const user = await UserModel.findById(req.user!.id)
 
   if (!user) {
-    throw new ErrorExt("USERNAME_NO_MATCH", 404);
+    throw new ErrorExt("USER_NO_MATCH", 404);
   }
 
   const userData: UserDtoRes = {

@@ -1,6 +1,6 @@
 import express from "express";
 import { validationHandlingRoutine, errorHandlingRoutine } from "../utils/errorHandlingRoutines.js";
-import { PostProfileDto } from "../models/dto/req/user-data.dto.js";
+import { PostProfileDtoReq } from "../models/dto/req/user-data.dto.req.js";
 import { CustomRequest } from "../models/extensions/request.extension.js";
 import { UserModel } from "../models/schemas/user.schema.js";
 import { ErrorExt } from "../models/extensions/error.extension.js";
@@ -18,7 +18,7 @@ export const postProfile = async (req: CustomRequest, res: express.Response, nex
       throw new ErrorExt("USERNAME_NO_MATCH", 404);
     }
 
-    const body = req.body as PostProfileDto;
+    const body = req.body as PostProfileDtoReq;
 
     //save data but avoid overwrite of empty propr in req body 
     user.name = body.name ?? user.name;

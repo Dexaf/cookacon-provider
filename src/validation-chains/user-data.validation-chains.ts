@@ -1,16 +1,16 @@
 import ev from "express-validator";
 import { getfieldName } from "../utils/getFieldName.js";
-import { PostProfileDto } from "../models/dto/req/user-data.dto.js";
+import { PostProfileDtoReq } from "../models/dto/req/user-data.dto.req.js";
 import { base64MimeType } from "../utils/getBase64MimeType.js";
 import { CountryCodesEnum } from "../models/enum/country-codes.js";
 
 
 export const postProfile = [
-  ev.body(getfieldName<PostProfileDto>("name"))
+  ev.body(getfieldName<PostProfileDtoReq>("name"))
     .optional(),
-  ev.body(getfieldName<PostProfileDto>("surname"))
+  ev.body(getfieldName<PostProfileDtoReq>("surname"))
     .optional(),
-  ev.body(getfieldName<PostProfileDto>("countryCode"))
+  ev.body(getfieldName<PostProfileDtoReq>("countryCode"))
     .optional()
     .custom((countryCode: string) => {
       if (Object.values(CountryCodesEnum).includes(countryCode as CountryCodesEnum)) {
@@ -20,13 +20,13 @@ export const postProfile = [
       }
     })
     .withMessage({ message: "COUNTRYCODE_NOT_EXISTS", errorCode: 422 }),
-  ev.body(getfieldName<PostProfileDto>("description"))
+  ev.body(getfieldName<PostProfileDtoReq>("description"))
     .optional(),
-  ev.body(getfieldName<PostProfileDto>("email"))
+  ev.body(getfieldName<PostProfileDtoReq>("email"))
     .optional()
     .isEmail()
     .withMessage({ message: "EMAIL_NOT_VALID", errorCode: 422 }),
-  ev.body(getfieldName<PostProfileDto>("profilePictureBase64"))
+  ev.body(getfieldName<PostProfileDtoReq>("profilePictureBase64"))
     .optional()
     .custom(((profilePictureBase64: string) => {
       try {

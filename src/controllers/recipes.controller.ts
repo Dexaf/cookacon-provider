@@ -34,18 +34,18 @@ export const addRecipe = async (req: CustomRequest, res: express.Response, next:
     })
 
     const recipeRelativePath = `\\public\\${user.id}\\recipes\\${recipe.title}`;
-    await fsPromises.mkdir(recipeRelativePath);
-    const savePicturePromises: Promise<void>[] = [];
     const projectRoot = path.resolve(process.cwd());
+    await fsPromises.mkdir(projectRoot + recipeRelativePath);
+    const savePicturePromises: Promise<void>[] = [];
 
-    //RECIPE PICTURE
+    //RECIPE PICTURES
     if (body.mainPictureBase64) {
       const imageExtension = base64MimeType(body.mainPictureBase64);
       recipe.mainPictureUrl = recipeRelativePath + `\\pic.${imageExtension.split("/")[1]}`;
-      savePicturePromises.push(savePicture(body.mainPictureBase64, path.resolve(process.cwd()) + recipe.mainPictureUrl));
+      savePicturePromises.push(savePicture(body.mainPictureBase64, projectRoot + recipe.mainPictureUrl));
     }
 
-    //INGREDIENTS PICTURE
+    //INGREDIENTS PICTURES
     for (let i = 0; i < body.ingredients.length; i++) {
       if (body.ingredients[i].pictureBase64) {
         const imageExtension = base64MimeType(body.ingredients[i].pictureBase64!);
@@ -54,7 +54,7 @@ export const addRecipe = async (req: CustomRequest, res: express.Response, next:
       }
     }
 
-    //STEPS PICTURE
+    //STEPS PICTURES
     for (let i = 0; i < body.steps.length; i++) {
       if (body.steps[i].pictureBase64) {
         const imageExtension = base64MimeType(body.steps[i].pictureBase64!);

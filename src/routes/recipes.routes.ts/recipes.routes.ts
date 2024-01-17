@@ -1,20 +1,22 @@
 import express from "express";
 import { isAuthGuard } from "../../guards/auth.guard.js";
 import * as recipesController from "../../controllers/recipes.controller.js"
-
-const recipeRouter = express.Router();
+import * as recipeValidationChains from "../../validation-chains/recipes.validation-chains.js"
+const recipesRouter = express.Router();
 
 //add new recipe
-recipeRouter.post('/Add', isAuthGuard, recipesController.addRecipe);
+recipesRouter.post('/Add', isAuthGuard, recipeValidationChains.addRecipe, recipesController.addRecipe);
 //get all recipe of authenticated account
-recipeRouter.get('/Own', isAuthGuard);
+recipesRouter.get('/Own', isAuthGuard);
 //get a certain recipe of authenticated account
-recipeRouter.get('/Own/:recipeId', isAuthGuard);
+recipesRouter.get('/Own/:recipeId', isAuthGuard);
 //get all recipe of an account
-recipeRouter.get('/:userId/');
+recipesRouter.get('/:userId/');
 //get a certain recipe of an account
-recipeRouter.get('/:userId/:recipeId');
+recipesRouter.get('/:userId/:recipeId');
 //update a certain recipe of an account
-recipeRouter.patch('/:recipeId', isAuthGuard);
+recipesRouter.patch('/:recipeId', isAuthGuard);
 //delete certains recipes of authenticated account 
-recipeRouter.delete('/:recipeId', isAuthGuard);
+recipesRouter.delete('/:recipeId', isAuthGuard);
+
+export default recipesRouter;

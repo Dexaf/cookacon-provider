@@ -11,6 +11,7 @@ import { envs } from "../config.js";
 import { errorHandlingRoutine, validationHandlingRoutine } from "../utils/errorHandlingRoutines.js";
 import UserDtoRes from "../models/dto/res/user.dto.res.js";
 import { CustomRequest } from "../models/extensions/request.extension.js";
+import path from "path";
 
 export const signOn = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
@@ -24,11 +25,13 @@ export const signOn = async (req: express.Request, res: express.Response, next: 
       username: body.username,
       password: hashedPass
     });
-    await newUser.save();
 
     //create default user dirs
-    await fsPromises.mkdir(`\\public\\${newUser._id}`);
-    await fsPromises.mkdir(`\\public\\${newUser._id}\\recipes`);
+    const projectRoot = path.resolve(process.cwd())
+    await fsPromises.mkdir(`${projectRoot}\\public\\${newUser._id}`);
+    await fsPromises.mkdir(`${projectRoot}\\public\\${newUser._id}\\recipes`);
+
+    await newUser.save();
 
     const userData = {
       id: newUser._id,

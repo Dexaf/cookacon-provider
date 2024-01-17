@@ -1,6 +1,6 @@
 export interface Ingredient {
   name: string;
-  qta: number;
+  qta: string;
   pictureBase64?: string;
 }
 

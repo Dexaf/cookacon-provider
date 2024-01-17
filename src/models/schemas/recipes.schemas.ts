@@ -9,7 +9,7 @@ const ingredientSchema = new mongoose.Schema({
     required: true
   },
   qta: {
-    type: Number,
+    type: String,
     required: true
   },
   pictureUrl: {
@@ -53,8 +53,7 @@ const recipeSchema = new mongoose.Schema({
     required: true
   },
   mainPictureUrl: {
-    type: String,
-    required: true
+    type: String
   },
   ingredients: {
     type: [ingredientSchema],

@@ -9,6 +9,7 @@ import errorMiddleware from './middlewares/error.middleware.js';
 import crashHandlingRoutine from './utils/crashHandlingRoutine.js';
 import userDataRouter from './routes/user-data/user-data.routes.js';
 import recipesRouter from './routes/recipes/recipes.routes.js';
+import feedRouter from './routes/feed/feed.routes.js';
 
 const main = async () => {
   try {
@@ -28,6 +29,7 @@ const main = async () => {
       app.use('/Auth', authenticationRouter);
       app.use('/UserData', userDataRouter);
       app.use('/Recipes', recipesRouter)
+      app.use('/Feed', feedRouter)
       //!SECTION - ROUTES
 
       //NOTE - error middleware need to be here to catch errors from the route

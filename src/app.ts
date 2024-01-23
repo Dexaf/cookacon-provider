@@ -26,10 +26,10 @@ const main = async () => {
       //!SECTION - MIDDLEWARES
 
       //SECTION - ROUTES
-      app.use('/Auth', authenticationRouter);
-      app.use('/UserData', userDataRouter);
-      app.use('/Recipes', recipesRouter)
-      app.use('/Feed', feedRouter)
+      app.use('/auth', authenticationRouter);
+      app.use('/userData', userDataRouter);
+      app.use('/recipes', recipesRouter)
+      app.use('/feed', feedRouter)
       //!SECTION - ROUTES
 
       //NOTE - error middleware need to be here to catch errors from the route

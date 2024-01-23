@@ -9,3 +9,13 @@ export interface Step {
   description: string;
   pictureBase64?: string;
 }
+
+export interface Recipe {
+  _id: string;
+  title: string;
+  description: string;
+  mainPictureBase64?: string;
+  ingredients: Ingredient[];
+  minQta: number;
+  steps: Step[];
+}

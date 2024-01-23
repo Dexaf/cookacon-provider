@@ -10,13 +10,28 @@ recipesRouter.post('/Add', isAuthGuard, recipeValidationChains.addRecipe, recipe
 recipesRouter.get('/Own', isAuthGuard, recipesController.getOwnRecipes);
 //get a certain recipe of authenticated account
 recipesRouter.get('/Own/:recipeId', isAuthGuard, recipesController.getOwnRecipe);
-//get all recipe of an account
+//delete certains recipes of authenticated account 
+recipesRouter.delete('/Own/:recipeId', isAuthGuard, recipesController.deleteOwnRecipe);
+
+//update a certain recipe of an authenticated account
+recipesRouter.patch('/Own/:recipeId', isAuthGuard, recipeValidationChains.updateRecipe, recipesController.updateOwnRecipe);
+
+//INGREDIENTS
+//update an ingredient of a recipe of an authenticated account
+recipesRouter.patch('/Own/:recipeId/Ingredient/:ingredientId', isAuthGuard, recipeValidationChains.updateIngredient, recipesController.updateOwnRecipeIngredient);
+//delete an ingredient of a recipe of an authenticated account
+recipesRouter.delete('/Own/:recipeId/Ingredient/:ingredientId', isAuthGuard, recipesController.deleteOwnRecipeIngredient);
+
+//STEPS
+//update a step of a recipe of an authenticated account
+recipesRouter.patch('/Own/:recipeId/Step/:stepId', isAuthGuard, recipeValidationChains.updateStep, recipesController.updateOwnRecipeStep);
+//delete a step of a recipe of an authenticated account
+recipesRouter.delete('/Own/:recipeId/Step/:stepId', isAuthGuard, recipesController.deleteOwnRecipeStep);
+
+//get all recipes of an account
 recipesRouter.get('/:userId/', recipesController.getUserRecipes);
 //get a certain recipe of an account
 recipesRouter.get('/:userId/:recipeId', recipesController.getUserRecipe);
-//update a certain recipe of an account
-recipesRouter.patch('/:recipeId', isAuthGuard); //TODO - update only first layer of doc, leave ingrd and steps for other end points
-//delete certains recipes of authenticated account 
-recipesRouter.delete('/:recipeId', isAuthGuard, recipesController.deleteOwnRecipe);
+
 
 export default recipesRouter;

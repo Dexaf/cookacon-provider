@@ -9,3 +9,9 @@ export interface AddRecipeDtoReq {
   steps: Step[];
 }
 
+export interface UpdateRecipeDtoReq {
+  title?: string;
+  description?: string;
+  mainPictureBase64?: string;
+  minQta?: number;
+}

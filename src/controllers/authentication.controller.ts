@@ -37,7 +37,7 @@ export const signOn = async (req: express.Request, res: express.Response, next: 
       id: newUser._id,
       username: newUser.username
     };
-    res.send(userData).status(200);
+    res.send(userData);
   } catch (error: any) {
     return errorHandlingRoutine(error, next);
   }
@@ -65,7 +65,7 @@ export const logIn = async (req: express.Request, res: express.Response, next: e
 
     const token = jwt.sign({ userData }, envs!.JWT_SECRET, { expiresIn: envs!.JWT_EXPIRATIONS })
 
-    res.send(token).status(200)
+    res.send(token)
   } catch (error: any) {
     return errorHandlingRoutine(error, next);
   }

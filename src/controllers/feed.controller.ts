@@ -2,8 +2,6 @@ import express from "express";
 import { errorHandlingRoutine, validationHandlingRoutine } from "../utils/errorHandlingRoutines.js";
 import { SearchSuggestionDtoReq } from "../models/dto/req/feed.dto.req.js";
 import { RecipeModel } from "../models/schemas/recipes.schemas.js";
-import { ErrorExt } from "../models/extensions/error.extension.js";
-import mongoose from "mongoose";
 import { Recipe } from "../models/interfaces/recipes.interfaces.js";
 import { getfieldName } from "../utils/getFieldName.js";
 
@@ -41,7 +39,7 @@ export const searchSuggestion = async (req: express.Request, res: express.Respon
 
     recipesRet.push(...perfectMatch, ...halfMatch, ...threeQuarteMatch);
     const status = recipesRet.length > 0 ? 200 : 204;
-    res.status(status).json(recipesRet);
+    res.status(status).send(recipesRet);
   } catch (error) {
     errorHandlingRoutine(error, next);
   }

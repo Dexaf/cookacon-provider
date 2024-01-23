@@ -1,5 +1,5 @@
 import express from "express";
-import mongoose, { ObjectId } from "mongoose";
+import mongoose from "mongoose";
 import { promises as fsPromises } from 'fs';
 import path from "path";
 
@@ -81,7 +81,7 @@ export const getOwnRecipes = async (req: CustomRequest, res: express.Response, n
       throw new ErrorExt("USER_NO_MATCH", 404);
 
     const recipes = await RecipeModel.find({ userId: user._id });
-    res.json(recipes).status(200).send();
+    res.send(recipes);
   } catch (error) {
     errorHandlingRoutine(error, next)
   }
@@ -98,7 +98,7 @@ export const getOwnRecipe = async (req: CustomRequest, res: express.Response, ne
     const recipeId = req.params.recipeId;
 
     const recipe = await RecipeModel.findOne({ $and: [{ userId: user._id }, { _id: recipeId }] });
-    res.json(recipe).status(200).send();
+    res.send(recipe);
   } catch (error) {
     errorHandlingRoutine(error, next)
   }
@@ -110,7 +110,7 @@ export const getUserRecipes = async (req: express.Request, res: express.Response
     const userId = req.params.userId;
 
     const recipes = await RecipeModel.find({ userId: userId });
-    res.json(recipes).status(200).send();
+    res.send(recipes);
   } catch (error) {
     errorHandlingRoutine(error, next);
   }
@@ -123,7 +123,7 @@ export const getUserRecipe = async (req: express.Request, res: express.Response,
     const recipeId = req.params.recipeId;
 
     const recipe = await RecipeModel.findOne({ $and: [{ userId: userId }, { _id: recipeId }] });
-    res.json(recipe).status(200).send();
+    res.send(recipe);
   } catch (error) {
     errorHandlingRoutine(error, next);
   }

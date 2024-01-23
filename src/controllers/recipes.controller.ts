@@ -13,8 +13,6 @@ import { base64MimeType } from "../utils/getBase64MimeType.js";
 import { savePicture } from "../utils/savePicture.js";
 import { Ingredient, Step } from "../models/interfaces/recipes.interfaces.js";
 
-
-//FIXME - INIT ID OF STEPS AND INGREDIENTS
 export const addRecipe = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
   try {
     validationHandlingRoutine(req);

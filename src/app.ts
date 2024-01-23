@@ -7,8 +7,8 @@ import bodyParserMiddleware from './middlewares/body-parser.middleware.js';
 import headersMiddleware from './middlewares/headers.middleware.js';
 import errorMiddleware from './middlewares/error.middleware.js';
 import crashHandlingRoutine from './utils/crashHandlingRoutine.js';
-import userDataRouter from './routes/user-data.routes/user-data.routes.js';
-import recipesRouter from './routes/recipes.routes/recipes.routes.js';
+import userDataRouter from './routes/user-data/user-data.routes.js';
+import recipesRouter from './routes/recipes/recipes.routes.js';
 
 const main = async () => {
   try {

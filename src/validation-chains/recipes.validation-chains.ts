@@ -10,7 +10,7 @@ import { Ingredient, Step } from "../models/interfaces/recipes.interfaces.js";
 
 export const addRecipe = [
   ev.body()
-    .custom((recipe: AddRecipeDtoReq) => Object.keys(recipe).length < 1)
+    .custom((recipe: AddRecipeDtoReq) => Object.keys(recipe).length > 0)
     .withMessage({ message: "EMPTY_BODY", errorCode: 422 }),
   ev.body(getfieldName<AddRecipeDtoReq>("title"))
     .exists()
@@ -88,7 +88,7 @@ export const addRecipe = [
 
 export const updateRecipe = [
   ev.body()
-    .custom((recipe: UpdateRecipeDtoReq) => !(Object.keys(recipe).length < 1))
+    .custom((recipe: UpdateRecipeDtoReq) => Object.keys(recipe).length > 0)
     .withMessage({ message: "EMPTY_BODY", errorCode: 422 }),
   ev.body(getfieldName<UpdateRecipeDtoReq>("title"))
     .optional()
@@ -126,7 +126,7 @@ export const updateRecipe = [
 
 export const updateIngredient = [
   ev.body()
-    .custom((ingredient: Ingredient) => !(Object.keys(ingredient).length < 1))
+    .custom((ingredient: Ingredient) => Object.keys(ingredient).length > 0)
     .withMessage({ message: "EMPTY_BODY", errorCode: 422 }),
   ev.body(getfieldName<Ingredient>("name"))
     .optional()
@@ -158,7 +158,7 @@ export const updateIngredient = [
 
 export const updateStep = [
   ev.body()
-    .custom((step: Step) => !(Object.keys(step).length < 1))
+    .custom((step: Step) => Object.keys(step).length > 0)
     .withMessage({ message: "EMPTY_BODY", errorCode: 422 }),
   ev.body(getfieldName<Step>("title"))
     .optional()

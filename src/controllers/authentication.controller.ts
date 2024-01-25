@@ -9,9 +9,10 @@ import { UserModel } from "../models/schemas/user.schema.js";
 import { ErrorExt } from "../models/extensions/error.extension.js";
 import { envs } from "../config.js";
 import { errorHandlingRoutine, validationHandlingRoutine } from "../utils/errorHandlingRoutines.js";
-import UserDtoRes from "../models/dto/res/user.dto.res.js";
+import UserDtoRes from "../models/dto/res/user-data.dto.res.js";
 import { CustomRequest } from "../models/extensions/request.extension.js";
 import path from "path";
+import { UserSocialModel } from "../models/schemas/userSocial.schemas.js";
 
 export const signOn = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
@@ -32,6 +33,9 @@ export const signOn = async (req: express.Request, res: express.Response, next: 
     await fsPromises.mkdir(`${projectRoot}\\public\\${newUser._id}\\recipes`);
 
     await newUser.save();
+    await new UserSocialModel({
+      userId: newUser._id
+    }).save();
 
     const userData = {
       id: newUser._id,
@@ -69,17 +73,4 @@ export const logIn = async (req: express.Request, res: express.Response, next: e
   } catch (error: any) {
     return errorHandlingRoutine(error, next);
   }
-}
-
-export const getUser = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
-  const user = await UserModel.findById(req.user!.id)
-
-  if (!user) {
-    throw new ErrorExt("USER_NO_MATCH", 404);
-  }
-
-  const userData: UserDtoRes = {
-    username: user.username
-  }
-  res.send(userData);
 }

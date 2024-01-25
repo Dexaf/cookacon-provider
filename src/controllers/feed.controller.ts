@@ -1,9 +1,11 @@
 import express from "express";
 import { errorHandlingRoutine, validationHandlingRoutine } from "../utils/errorHandlingRoutines.js";
-import { SearchSuggestionDtoReq } from "../models/dto/req/feed.dto.req.js";
+import { SearchDtoReq, SearchSuggestionDtoReq } from "../models/dto/req/feed.dto.req.js";
 import { RecipeModel } from "../models/schemas/recipes.schemas.js";
 import { Recipe } from "../models/interfaces/recipes.interfaces.js";
 import { getfieldName } from "../utils/getFieldName.js";
+import { RecipeViewsModel } from "../models/schemas/recipesViews.schemas.js";
+import { CustomRequest } from "../models/extensions/request.extension.js";
 
 //TODO - Improve reliability
 export const searchSuggestion = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -46,13 +48,63 @@ export const searchSuggestion = async (req: express.Request, res: express.Respon
 }
 
 export const mostPopular = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  try {
+    validationHandlingRoutine(req);
+    const query = req.query as unknown as SearchDtoReq;
+    const quantity = query.quantity ?? 10;
+    const page = query.page;
 
+    const foundRecipes = await RecipeViewsModel.find()
+      .skip(page * quantity)
+      .limit(quantity)
+      .populate({ path: "recipesId" })
+      .sort({ views: "desc" })
+
+    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
+  } catch (error) {
+    errorHandlingRoutine(req, next);
+  }
 }
 
 export const general = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  try {
+    validationHandlingRoutine(req);
+    const query = req.query as unknown as SearchDtoReq;
+    const quantity = query.quantity ?? 10;
+    const page = query.page;
 
+    const foundRecipes = await RecipeViewsModel
+      .find()
+      .skip(page * quantity)
+      .limit(quantity)
+      .populate({ path: "recipesId" })
+    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
+
+  } catch (error) {
+    errorHandlingRoutine(req, next);
+  }
 }
 
-export const personal = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+export const personal = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
+  try {
+    validationHandlingRoutine(req);
+    
+    const userId = req.user!.id;
 
+    //TODO - ottieni tutte le ricette dei followed del profilo
+
+    const query = req.query as unknown as SearchDtoReq;
+    const quantity = query.quantity ?? 10;
+    const page = query.page;
+
+    const foundRecipes = await RecipeViewsModel
+      .find()
+      .skip(page * quantity)
+      .limit(quantity)
+      .populate({ path: "recipesId" })
+    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
+
+  } catch (error) {
+    errorHandlingRoutine(req, next);
+  }
 }

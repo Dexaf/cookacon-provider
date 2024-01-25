@@ -1,16 +1,16 @@
 import ev from "express-validator";
 import { getfieldName } from "../utils/getFieldName.js";
-import { PostProfileDtoReq } from "../models/dto/req/user-data.dto.req.js";
+import { FollowDtoReq, UpdateProfileDtoReq } from "../models/dto/req/user-data.dto.req.js";
 import { base64MimeType } from "../utils/getBase64MimeType.js";
 import { CountryCodesEnum } from "../models/enum/country-codes.js";
 
 
-export const postProfile = [
-  ev.body(getfieldName<PostProfileDtoReq>("name"))
+export const updateProfile = [
+  ev.body(getfieldName<UpdateProfileDtoReq>("name"))
     .optional(),
-  ev.body(getfieldName<PostProfileDtoReq>("surname"))
+  ev.body(getfieldName<UpdateProfileDtoReq>("surname"))
     .optional(),
-  ev.body(getfieldName<PostProfileDtoReq>("countryCode"))
+  ev.body(getfieldName<UpdateProfileDtoReq>("countryCode"))
     .optional()
     .custom((countryCode: string) => {
       if (Object.values(CountryCodesEnum).includes(countryCode as CountryCodesEnum)) {
@@ -20,13 +20,13 @@ export const postProfile = [
       }
     })
     .withMessage({ message: "COUNTRYCODE_NOT_EXISTS", errorCode: 422 }),
-  ev.body(getfieldName<PostProfileDtoReq>("description"))
+  ev.body(getfieldName<UpdateProfileDtoReq>("description"))
     .optional(),
-  ev.body(getfieldName<PostProfileDtoReq>("email"))
+  ev.body(getfieldName<UpdateProfileDtoReq>("email"))
     .optional()
     .isEmail()
     .withMessage({ message: "EMAIL_NOT_VALID", errorCode: 422 }),
-  ev.body(getfieldName<PostProfileDtoReq>("profilePictureBase64"))
+  ev.body(getfieldName<UpdateProfileDtoReq>("profilePictureBase64"))
     .optional()
     .custom(((profilePictureBase64: string) => {
       try {
@@ -38,3 +38,5 @@ export const postProfile = [
     }))
     .withMessage({ message: "BASE64_WASNT_PICTURE", errorCode: 422 }),
 ]
+
+export const follow = ev.body(getfieldName<FollowDtoReq>("targetId")).isString();

@@ -12,6 +12,7 @@ import { RecipeModel } from "../models/schemas/recipes.schemas.js";
 import { base64MimeType } from "../utils/getBase64MimeType.js";
 import { savePicture } from "../utils/savePicture.js";
 import { Ingredient, Step } from "../models/interfaces/recipes.interfaces.js";
+import { RecipeViewsModel } from "../models/schemas/recipesViews.schemas.js";
 
 export const addRecipe = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
   try {
@@ -65,7 +66,13 @@ export const addRecipe = async (req: CustomRequest, res: express.Response, next:
     }
 
     await recipe.save();
+    await new RecipeViewsModel({
+      _id: new mongoose.Types.ObjectId(),
+      recipeId: recipe._id,
+      uploadData: recipe.uploadData
+    }).save();
     await Promise.all(savePicturePromises);
+
     res.status(200).send();
   } catch (error: any) {
     errorHandlingRoutine(error, next);
@@ -79,9 +86,9 @@ export const getOwnRecipes = async (req: CustomRequest, res: express.Response, n
     const user = await UserModel.findById(req.user!.id);
     if (!user)
       throw new ErrorExt("USER_NO_MATCH", 404);
-
     const recipes = await RecipeModel.find({ userId: user._id });
-    res.send(recipes);
+
+    res.status(recipes.length > 0 ? 200 : 204).send(recipes);
   } catch (error) {
     errorHandlingRoutine(error, next)
   }
@@ -98,6 +105,9 @@ export const getOwnRecipe = async (req: CustomRequest, res: express.Response, ne
     const recipeId = req.params.recipeId;
 
     const recipe = await RecipeModel.findOne({ $and: [{ userId: user._id }, { _id: recipeId }] });
+    if (!recipe)
+      throw new ErrorExt("RECIPE_OR_USER_NO_MATCH", 404);
+
     res.send(recipe);
   } catch (error) {
     errorHandlingRoutine(error, next)
@@ -110,7 +120,8 @@ export const getUserRecipes = async (req: express.Request, res: express.Response
     const userId = req.params.userId;
 
     const recipes = await RecipeModel.find({ userId: userId });
-    res.send(recipes);
+
+    res.status(recipes.length > 0 ? 200 : 204).send(recipes);
   } catch (error) {
     errorHandlingRoutine(error, next);
   }
@@ -123,6 +134,11 @@ export const getUserRecipe = async (req: express.Request, res: express.Response,
     const recipeId = req.params.recipeId;
 
     const recipe = await RecipeModel.findOne({ $and: [{ userId: userId }, { _id: recipeId }] });
+    if (!recipe)
+      throw new ErrorExt("RECIPE_OR_USER_NO_MATCH", 404);
+
+    await RecipeViewsModel.findOneAndUpdate({ recipeId: recipeId }, { $inc: { views: 1 } });
+
     res.send(recipe);
   } catch (error) {
     errorHandlingRoutine(error, next);
@@ -139,9 +155,10 @@ export const deleteOwnRecipe = async (req: CustomRequest, res: express.Response,
     const recipeId = req.params.recipeId;
     const isDeleted = await RecipeModel.deleteOne({ $and: [{ _id: recipeId }, { userId: user._id }] })
     if (isDeleted.deletedCount === 0)
-      throw new ErrorExt("RECIPE_NO_MATCH", 404)
-    else
-      res.status(204).send()
+      throw new ErrorExt("RECIPE_NO_MATCH", 404);
+    await RecipeViewsModel.deleteOne({ $and: [{ recipesId: recipeId }] });
+    
+    res.status(204).send();
   } catch (error) {
     errorHandlingRoutine(error, next);
 
@@ -175,7 +192,7 @@ export const updateOwnRecipe = async (req: CustomRequest, res: express.Response,
 
       //NOTE - extension may change, in that case we need to delete the old pic path
       if (oldPath === projectRoot + recipe.mainPictureUrl)
-        oldPath = null
+        oldPath = null;
 
       savePicturePromise = savePicture(body.mainPictureBase64, projectRoot + recipe.mainPictureUrl);
     }
@@ -200,7 +217,7 @@ export const updateOwnRecipe = async (req: CustomRequest, res: express.Response,
 
 export const updateOwnRecipeIngredient = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
   try {
-    validationHandlingRoutine(req)
+    validationHandlingRoutine(req);
 
     const user = await UserModel.findById(req.user!.id);
     if (!user)
@@ -256,7 +273,7 @@ export const updateOwnRecipeIngredient = async (req: CustomRequest, res: express
 
 export const updateOwnRecipeStep = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
   try {
-    validationHandlingRoutine(req)
+    validationHandlingRoutine(req);
 
     const user = await UserModel.findById(req.user!.id);
     if (!user)

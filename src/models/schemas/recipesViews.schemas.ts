@@ -8,7 +8,7 @@ const recipesViews = new mongoose.Schema({
     type: mongoose.Types.ObjectId,
     required: true
   }),
-  recipesId: ({
+  recipeId: ({
     type: mongoose.Types.ObjectId,
     ref: recipeSchemaName
   }),

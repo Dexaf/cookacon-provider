@@ -6,6 +6,8 @@ import { Recipe } from "../models/interfaces/recipes.interfaces.js";
 import { getfieldName } from "../utils/getFieldName.js";
 import { RecipeViewsModel } from "../models/schemas/recipesViews.schemas.js";
 import { CustomRequest } from "../models/extensions/request.extension.js";
+import { UserSocialModel } from "../models/schemas/userSocial.schemas.js";
+import { ErrorExt } from "../models/extensions/error.extension.js";
 
 //TODO - Improve reliability
 export const searchSuggestion = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
@@ -88,22 +90,26 @@ export const general = async (req: express.Request, res: express.Response, next:
 export const personal = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
   try {
     validationHandlingRoutine(req);
-    
-    const userId = req.user!.id;
 
-    //TODO - ottieni tutte le ricette dei followed del profilo
+    const userId = req.user!.id;
+    const userSocial = await UserSocialModel.findOne({ userId: userId });
+    if (!userSocial)
+      throw new ErrorExt('USERSOCIAL_NO_MATCH', 404);
 
     const query = req.query as unknown as SearchDtoReq;
     const quantity = query.quantity ?? 10;
     const page = query.page;
 
-    const foundRecipes = await RecipeViewsModel
-      .find()
+    const foundRecipes = await RecipeModel
+      .find({ userId: { $in: userSocial.followedIds } })
       .skip(page * quantity)
       .limit(quantity)
-      .populate({ path: "recipesId" })
-    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
+      .populate({
+        path: "userId",
+        select: ["_id", "username", "profilePictureUrl", "name", "surname"]
+      })
 
+    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
   } catch (error) {
     errorHandlingRoutine(req, next);
   }

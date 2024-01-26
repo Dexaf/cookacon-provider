@@ -9,8 +9,6 @@ import { UserModel } from "../models/schemas/user.schema.js";
 import { ErrorExt } from "../models/extensions/error.extension.js";
 import { envs } from "../config.js";
 import { errorHandlingRoutine, validationHandlingRoutine } from "../utils/errorHandlingRoutines.js";
-import UserDtoRes from "../models/dto/res/user-data.dto.res.js";
-import { CustomRequest } from "../models/extensions/request.extension.js";
 import path from "path";
 import { UserSocialModel } from "../models/schemas/userSocial.schemas.js";
 

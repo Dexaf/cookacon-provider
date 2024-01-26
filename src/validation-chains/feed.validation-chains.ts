@@ -19,6 +19,8 @@ export const pagination = [
     .isInt({ min: 0 })
     .withMessage({ message: "QUANTITY_MUST_BE_POSITIVE_INTEGER", errorCode: 422 }),
   ev.query(getfieldName<SearchDtoReq>("page"))
+    .notEmpty()
+    .withMessage({ message: "PAGE_MISSING", errorCode: 422 })
     .isInt({ min: 0 })
     .withMessage({ message: "PAGE_MUST_BE_POSITIVE_INTEGER", errorCode: 422 }),
 ]

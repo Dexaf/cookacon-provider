@@ -54,17 +54,17 @@ export const mostPopular = async (req: express.Request, res: express.Response, n
     validationHandlingRoutine(req);
     const query = req.query as unknown as SearchDtoReq;
     const quantity = query.quantity ?? 10;
-    const page = query.page;
+    const page = +query.page;
 
     const foundRecipes = await RecipeViewsModel.find()
       .skip(page * quantity)
       .limit(quantity)
-      .populate({ path: "recipesId" })
+      .populate({ path: "recipeId" })
       .sort({ views: "desc" })
 
     res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
   } catch (error) {
-    errorHandlingRoutine(req, next);
+    errorHandlingRoutine(error, next);
   }
 }
 
@@ -73,17 +73,17 @@ export const general = async (req: express.Request, res: express.Response, next:
     validationHandlingRoutine(req);
     const query = req.query as unknown as SearchDtoReq;
     const quantity = query.quantity ?? 10;
-    const page = query.page;
+    const page = +query.page;
 
     const foundRecipes = await RecipeViewsModel
       .find()
       .skip(page * quantity)
       .limit(quantity)
-      .populate({ path: "recipesId" })
+      .populate({ path: "recipeId" })
     res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
 
   } catch (error) {
-    errorHandlingRoutine(req, next);
+    errorHandlingRoutine(error, next);
   }
 }
 
@@ -98,7 +98,7 @@ export const personal = async (req: CustomRequest, res: express.Response, next: 
 
     const query = req.query as unknown as SearchDtoReq;
     const quantity = query.quantity ?? 10;
-    const page = query.page;
+    const page = +query.page;
 
     const foundRecipes = await RecipeModel
       .find({ userId: { $in: userSocial.followedIds } })
@@ -111,6 +111,6 @@ export const personal = async (req: CustomRequest, res: express.Response, next: 
 
     res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
   } catch (error) {
-    errorHandlingRoutine(req, next);
+    errorHandlingRoutine(error, next);
   }
 }

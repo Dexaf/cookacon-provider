@@ -59,7 +59,7 @@ export const mostPopular = async (req: express.Request, res: express.Response, n
     const foundRecipes = await RecipeViewsModel.find()
       .skip(page * quantity)
       .limit(quantity)
-      .populate({ path: "recipeId" })
+      .populate({ path: "recipeId" }) //FIXME - fix magic string
       .sort({ views: "desc" })
 
     res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
@@ -79,7 +79,7 @@ export const general = async (req: express.Request, res: express.Response, next:
       .find()
       .skip(page * quantity)
       .limit(quantity)
-      .populate({ path: "recipeId" })
+      .populate({ path: "recipeId" }) //FIXME - fix magic string
     res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
 
   } catch (error) {
@@ -106,8 +106,8 @@ export const personal = async (req: CustomRequest, res: express.Response, next: 
       .limit(quantity)
       .populate({
         path: "userId",
-        select: ["_id", "username", "profilePictureUrl", "name", "surname"]
-      })
+        select: ["_id", "username", "profilePictureUrl", "name", "surname"] 
+      }) //FIXME - fix magic string
 
     res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
   } catch (error) {

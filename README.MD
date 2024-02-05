@@ -34,7 +34,7 @@ images made with [Excalidraw](https://excalidraw.com).
 ![auth controller](/api-use-case/auth-controller.png "auth controller")
 ![feed controller](/api-use-case/feed-controller.png "feed controller")
 ![recipes controller](/api-use-case/recipes-controller.png "recipes controller")
-![feed controller](/api-use-case/feed-controller.png "feed controller")
+![userData controller](/api-use-case/userData-controller.png "userData controller")
 
 ## WHAT'S NEXT?
 there's no big things to change right now beside some stuff i've forgot to add 

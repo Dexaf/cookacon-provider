@@ -83,8 +83,6 @@ export const addRecipe = async (req: CustomRequest, res: express.Response, next:
 
 export const getOwnRecipes = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
   try {
-    validationHandlingRoutine(req);
-
     const user = await UserModel.findById(req.user!.id);
     if (!user)
       throw new ErrorExt("USER_NO_MATCH", 404);
@@ -98,8 +96,6 @@ export const getOwnRecipes = async (req: CustomRequest, res: express.Response, n
 
 export const getOwnRecipe = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
   try {
-    validationHandlingRoutine(req);
-
     const user = await UserModel.findById(req.user!.id);
     if (!user)
       throw new ErrorExt("USER_NO_MATCH", 404);
@@ -118,7 +114,6 @@ export const getOwnRecipe = async (req: CustomRequest, res: express.Response, ne
 
 export const getUserRecipes = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
-    validationHandlingRoutine(req);
     const userId = req.params.userId;
 
     const recipes = await RecipeModel.find({ userId: userId });
@@ -131,7 +126,6 @@ export const getUserRecipes = async (req: express.Request, res: express.Response
 
 export const getUserRecipe = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
-    validationHandlingRoutine(req);
     const userId = req.params.userId;
     const recipeId = req.params.recipeId;
 
@@ -158,8 +152,13 @@ export const deleteOwnRecipe = async (req: CustomRequest, res: express.Response,
     const isDeleted = await RecipeModel.deleteOne({ $and: [{ _id: recipeId }, { userId: user._id }] })
     if (isDeleted.deletedCount === 0)
       throw new ErrorExt("RECIPE_NO_MATCH", 404);
+
     await RecipeViewsModel.deleteOne({ $and: [{ recipesId: recipeId }] });
-    
+
+    const recipeRelativePath = `\\public\\${user.id}\\recipes\\${recipeId}`;
+    const projectRoot = path.resolve(process.cwd());
+    await fsPromises.rm(recipeRelativePath + projectRoot);
+
     res.status(204).send();
   } catch (error) {
     errorHandlingRoutine(error, next);
@@ -333,14 +332,22 @@ export const updateOwnRecipeStep = async (req: CustomRequest, res: express.Respo
 
 export const deleteOwnRecipeIngredient = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
   try {
-    validationHandlingRoutine(req);
-
     const user = UserModel.findById(req.user!.id);
     if (!user)
       throw new ErrorExt("USER_NO_MATCH", 404);
 
     const recipeId = req.params.recipeId;
     const ingredientId = req.params.ingredientId;
+
+    const recipe = await RecipeModel.findOne({ _id: recipeId });
+    if (!recipe)
+      throw new ErrorExt("RECIPE_NO_MATCH", 404)
+
+    const ingredient = recipe.ingredients.find(i => i._id === ingredientId);
+    if (!ingredient)
+      throw new ErrorExt("INGREDIENT_NO_MATCH", 404)
+
+    const pictureUrl = ingredient.pictureUrl;
 
     const result = await RecipeModel.updateOne(
       { _id: recipeId },
@@ -349,7 +356,11 @@ export const deleteOwnRecipeIngredient = async (req: CustomRequest, res: express
     );
 
     if (result.modifiedCount < 1)
-      throw new ErrorExt("STEP_NO_MATCH", 404)
+      throw new ErrorExt("INGREDIENT_NO_MATCH", 404)
+    if (pictureUrl) {
+      const projectRoot = path.resolve(process.cwd());
+      await fsPromises.rm(projectRoot + pictureUrl);
+    }
 
     res.status(200).send();
   } catch (error) {
@@ -359,14 +370,22 @@ export const deleteOwnRecipeIngredient = async (req: CustomRequest, res: express
 
 export const deleteOwnRecipeStep = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
   try {
-    validationHandlingRoutine(req);
-
     const user = UserModel.findById(req.user!.id);
     if (!user)
       throw new ErrorExt("USER_NO_MATCH", 404);
 
     const recipeId = req.params.recipeId;
     const stepId = req.params.stepId;
+
+    const recipe = await RecipeModel.findOne({ _id: recipeId });
+    if (!recipe)
+      throw new ErrorExt("RECIPE_NO_MATCH", 404)
+
+    const step = recipe.steps.find(i => i._id === stepId);
+    if (!step)
+      throw new ErrorExt("STEP_NO_MATCH", 404)
+
+    const pictureUrl = step.pictureUrl;
 
     const result = await RecipeModel.updateOne(
       { _id: recipeId },
@@ -376,6 +395,10 @@ export const deleteOwnRecipeStep = async (req: CustomRequest, res: express.Respo
 
     if (result.modifiedCount < 1)
       throw new ErrorExt("STEP_NO_MATCH", 404)
+    if (pictureUrl) {
+      const projectRoot = path.resolve(process.cwd());
+      await fsPromises.rm(projectRoot + pictureUrl);
+    }
 
     res.status(200).send();
   } catch (error) {

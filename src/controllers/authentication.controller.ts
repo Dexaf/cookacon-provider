@@ -25,15 +25,15 @@ export const signOn = async (req: express.Request, res: express.Response, next: 
       password: hashedPass
     });
 
-    //create default user dirs
-    const projectRoot = path.resolve(process.cwd())
-    await fsPromises.mkdir(`${projectRoot}\\public\\${newUser._id}`);
-    await fsPromises.mkdir(`${projectRoot}\\public\\${newUser._id}\\recipes`);
-
     await newUser.save();
     await new UserSocialModel({
       userId: newUser._id
     }).save();
+
+    //create default user dirs
+    const projectRoot = path.resolve(process.cwd())
+    await fsPromises.mkdir(`${projectRoot}\\public\\${newUser._id}`);
+    await fsPromises.mkdir(`${projectRoot}\\public\\${newUser._id}\\recipes`);
 
     const userData = {
       id: newUser._id,

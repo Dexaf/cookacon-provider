@@ -29,15 +29,20 @@ You can signin and login and you have to if you want to add recipes.
 There's a follow-followed system.
 You can search even if you are not logged.
 
+You can find a postman collection inside the project.
+
 ## USE CASES
 images made with [Excalidraw](https://excalidraw.com).
+### AUTH CONTROLLER
 ![auth controller](/api-use-case/auth-controller.png "auth controller")
+### FEED CONTROLLER
 ![feed controller](/api-use-case/feed-controller.png "feed controller")
+### RECIPES CONTROLLER
 ![recipes controller](/api-use-case/recipes-controller.png "recipes controller")
+### USERDATA CONTROLLER
 ![userData controller](/api-use-case/userData-controller.png "userData controller")
 
 ## WHAT'S NEXT?
-there's no big things to change right now beside some stuff i've forgot to add 
-like an endpoint to search by title (useless right?) and i'd like to make some
-enchantment to the performance of the suggestion get endpoint because right now i'm eusing some classic find which i think it's a bit too slow for this kind of operation. 
-
+- Add an endpoint to search by title (useless right?)
+- Make some enchantment to the performance of the suggestion get endpoint, right now i'm using some classic find which is a bit too slow for this kind of operation. 
+- Add swagger.

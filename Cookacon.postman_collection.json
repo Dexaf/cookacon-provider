@@ -641,6 +641,117 @@
 			"name": "UserData",
 			"item": [
 				{
+					"name": "Update own profile data",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YjJlZGI4YzIyYTY4ZmFlNDE1YTM4MyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA3MTQzMDY0LCJleHAiOjE3MDcyMjk0NjR9.Rc7pJz8WP3_F9YWv77z5sekC7BHOZajxXM9w9eXjH3o",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"John\",\r\n  \"surname\": \"Doe\",\r\n  \"countryCode\": \"US\",\r\n  \"description\": \"A passionate individual\",\r\n  \"email\": \"john.doe@example.com\",\r\n  \"profilePictureBase64\": \"base64-encoded-image\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/userData/profile/own",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"userData",
+								"profile",
+								"own"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get own profile data",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YjJlZGI4YzIyYTY4ZmFlNDE1YTM4MyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA3MTQzMDY0LCJleHAiOjE3MDcyMjk0NjR9.Rc7pJz8WP3_F9YWv77z5sekC7BHOZajxXM9w9eXjH3o",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/userData/profile/own",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"userData",
+								"profile",
+								"own"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get an user profile data",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YjJlZGI4YzIyYTY4ZmFlNDE1YTM4MyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA3MTQzMDY0LCJleHAiOjE3MDcyMjk0NjR9.Rc7pJz8WP3_F9YWv77z5sekC7BHOZajxXM9w9eXjH3o",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/userData/profile/123123123",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"userData",
+								"profile",
+								"123123123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Add follower",
 					"request": {
 						"method": "POST",
@@ -705,77 +816,6 @@
 								"userData",
 								"follow",
 								"remove"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get own profile data",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YjJlZGI4YzIyYTY4ZmFlNDE1YTM4MyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA3MTQzMDY0LCJleHAiOjE3MDcyMjk0NjR9.Rc7pJz8WP3_F9YWv77z5sekC7BHOZajxXM9w9eXjH3o",
-								"type": "default"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:3000/userData/profile",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"userData",
-								"profile"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update own profile data",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YjJlZGI4YzIyYTY4ZmFlNDE1YTM4MyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA3MTQzMDY0LCJleHAiOjE3MDcyMjk0NjR9.Rc7pJz8WP3_F9YWv77z5sekC7BHOZajxXM9w9eXjH3o",
-								"type": "default"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"John\",\r\n  \"surname\": \"Doe\",\r\n  \"countryCode\": \"US\",\r\n  \"description\": \"A passionate individual\",\r\n  \"email\": \"john.doe@example.com\",\r\n  \"profilePictureBase64\": \"base64-encoded-image\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:3000/userData/profile",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"userData",
-								"profile"
 							]
 						}
 					},

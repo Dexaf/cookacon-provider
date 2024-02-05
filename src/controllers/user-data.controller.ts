@@ -101,15 +101,41 @@ export const removeFollow = async (req: CustomRequest, res: express.Response, ne
   }
 }
 
+export const getOwnProfile = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
+  try {
+    validationHandlingRoutine(req);
+    const user = await UserModel.findById(req.user!.id)
+
+    if (!user) {
+      throw new ErrorExt("USER_NO_MATCH", 404);
+    }
+
+    const profileData: UserDtoRes = {
+      username: user.username
+    }
+    res.send(profileData);
+  } catch (error) {
+    errorHandlingRoutine(error, next);
+  }
+
+}
+
 export const getProfile = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
-  const user = await UserModel.findById(req.user!.id)
+  try {
+    validationHandlingRoutine(req);
+    const userId = req.params.userId;
+    const user = await UserModel.findById(userId)
 
-  if (!user) {
-    throw new ErrorExt("USER_NO_MATCH", 404);
+    if (!user) {
+      throw new ErrorExt("USER_NO_MATCH", 404);
+    }
+
+    const profileData: UserDtoRes = {
+      username: user.username
+    }
+    res.send(profileData);
+  } catch (error) {
+    errorHandlingRoutine(error, next);
   }
 
-  const profileData: UserDtoRes = {
-    username: user.username
-  }
-  res.send(profileData);
 }

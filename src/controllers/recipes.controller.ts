@@ -39,7 +39,6 @@ export const addRecipe = async (req: CustomRequest, res: express.Response, next:
 
     const recipeRelativePath = `\\public\\${user.id}\\recipes\\${recipe._id}`;
     const projectRoot = path.resolve(process.cwd());
-    await fsPromises.mkdir(projectRoot + recipeRelativePath);
     const savePicturePromises: Promise<void>[] = [];
 
     //RECIPE PICTURES
@@ -73,6 +72,7 @@ export const addRecipe = async (req: CustomRequest, res: express.Response, next:
       recipeId: recipe._id,
       uploadData: recipe.uploadData
     }).save();
+    await fsPromises.mkdir(projectRoot + recipeRelativePath);
     await Promise.all(savePicturePromises);
 
     res.status(200).send();

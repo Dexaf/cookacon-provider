@@ -1,0 +1,787 @@
+{
+	"info": {
+		"_postman_id": "23112145-1631-4912-be2a-905a93e370a1",
+		"name": "Cookacon",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14475818"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "LogIn",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"Dexaf\",\r\n    \"password\":\"Test1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/Auth/LogIn",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"Auth",
+								"LogIn"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SignOn",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"Dexaf2\",\r\n    \"password\":\"Test1234\",\r\n    \"passwordCopy\":\"Test1234\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/Auth/SignOn",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"Auth",
+								"SignOn"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Recipe",
+			"item": [
+				{
+					"name": "Add new recipe",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YjJlZGI4YzIyYTY4ZmFlNDE1YTM4MyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA3MTQzMDY0LCJleHAiOjE3MDcyMjk0NjR9.Rc7pJz8WP3_F9YWv77z5sekC7BHOZajxXM9w9eXjH3o",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Carbonara di mare\",\r\n  \"description\": \"Mock Recipe Description\",\r\n  \"mainPictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\",\r\n  \"ingredients\": [\r\n    {\r\n      \"name\": \"Mock Ingredient 1\",\r\n      \"qta\": \"10 lt\",\r\n      \"pictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\"\r\n    }\r\n  ],\r\n  \"minQta\": 1,\r\n  \"steps\": [\r\n    {\r\n      \"title\": \"Step 1\",\r\n      \"description\": \"Mock Step 1 Description\",\r\n      \"pictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\"\r\n    }\r\n  ],\r\n  \"type\":\"FIRST_COURSE\",\r\n  \"cookingTime\":\"01:00\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/recipes/add",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recipes",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update recipe",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YjJlZGI4YzIyYTY4ZmFlNDE1YTM4MyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA3MTQzMDY0LCJleHAiOjE3MDcyMjk0NjR9.Rc7pJz8WP3_F9YWv77z5sekC7BHOZajxXM9w9eXjH3o",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Carbonara di mare\",\r\n  \"description\": \"Mock Recipe Description\",\r\n  \"mainPictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\",\r\n  \"minQta\": 1,\r\n  \"type\":\"FIRST_COURSE\",\r\n  \"cookingTime\":\"01:00\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/recipes/own/123123123123",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recipes",
+								"own",
+								"123123123123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update ingredient of a recipe",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YjJlZGI4YzIyYTY4ZmFlNDE1YTM4MyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA3MTQzMDY0LCJleHAiOjE3MDcyMjk0NjR9.Rc7pJz8WP3_F9YWv77z5sekC7BHOZajxXM9w9eXjH3o",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Mock Ingredient 1\",\r\n    \"qta\": \"10 lt\",\r\n    \"pictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/recipes/own/65c0f0233c847093217e6fba/ingredient/123123123123",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recipes",
+								"own",
+								"65c0f0233c847093217e6fba",
+								"ingredient",
+								"123123123123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update step of a recipe",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YjJlZGI4YzIyYTY4ZmFlNDE1YTM4MyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA3MTQzMDY0LCJleHAiOjE3MDcyMjk0NjR9.Rc7pJz8WP3_F9YWv77z5sekC7BHOZajxXM9w9eXjH3o",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"Step 1\",\r\n    \"description\": \"Mock Step 1 Description\",\r\n    \"pictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/recipes/own/65c0f0233c847093217e6fba/step/123123123123",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recipes",
+								"own",
+								"65c0f0233c847093217e6fba",
+								"step",
+								"123123123123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get own recipes",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YTVjNjM3Njg2OGY5YTQ4MGZiNDdhYyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA2MDU0MjA2LCJleHAiOjE3MDYxNDA2MDZ9.YwLGM-4s9k72jP0cOlEOhdnq5D15Ui6oXtQVndC_bas",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Mock Recipe\",\r\n  \"description\": \"Mock Recipe Description\",\r\n  \"mainPictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\",\r\n  \"ingredients\": [\r\n    {\r\n      \"name\": \"Mock Ingredient 1\",\r\n      \"qta\": \"120 lt\",\r\n      \"pictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\"\r\n    }\r\n  ],\r\n  \"minQta\": 1,\r\n  \"steps\": [\r\n    {\r\n      \"title\": \"Step 1\",\r\n      \"description\": \"Mock Step 1 Description\",\r\n      \"pictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\"\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/recipes/own",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recipes",
+								"own"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get own recipe",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YTVjNjM3Njg2OGY5YTQ4MGZiNDdhYyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA2MDU0MjA2LCJleHAiOjE3MDYxNDA2MDZ9.YwLGM-4s9k72jP0cOlEOhdnq5D15Ui6oXtQVndC_bas",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Mock Recipe\",\r\n  \"description\": \"Mock Recipe Description\",\r\n  \"mainPictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\",\r\n  \"ingredients\": [\r\n    {\r\n      \"name\": \"Mock Ingredient 1\",\r\n      \"qta\": \"120 lt\",\r\n      \"pictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\"\r\n    }\r\n  ],\r\n  \"minQta\": 1,\r\n  \"steps\": [\r\n    {\r\n      \"title\": \"Step 1\",\r\n      \"description\": \"Mock Step 1 Description\",\r\n      \"pictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\"\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/recipes/own/65c0f0233c847093217e6fba",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recipes",
+								"own",
+								"65c0f0233c847093217e6fba"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete step of a recipe",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YjJlZGI4YzIyYTY4ZmFlNDE1YTM4MyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA3MTQzMDY0LCJleHAiOjE3MDcyMjk0NjR9.Rc7pJz8WP3_F9YWv77z5sekC7BHOZajxXM9w9eXjH3o",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/recipes/own/65c0f0233c847093217e6fba/step/123123123123",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recipes",
+								"own",
+								"65c0f0233c847093217e6fba",
+								"step",
+								"123123123123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete ingredient of a recipe",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YjJlZGI4YzIyYTY4ZmFlNDE1YTM4MyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA3MTQzMDY0LCJleHAiOjE3MDcyMjk0NjR9.Rc7pJz8WP3_F9YWv77z5sekC7BHOZajxXM9w9eXjH3o",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/recipes/own/65c0f0233c847093217e6fba/ingredient/123123123123",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recipes",
+								"own",
+								"65c0f0233c847093217e6fba",
+								"ingredient",
+								"123123123123"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete own recipe",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YTVjNjM3Njg2OGY5YTQ4MGZiNDdhYyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA2MDU0MjA2LCJleHAiOjE3MDYxNDA2MDZ9.YwLGM-4s9k72jP0cOlEOhdnq5D15Ui6oXtQVndC_bas",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Mock Recipe\",\r\n  \"description\": \"Mock Recipe Description\",\r\n  \"mainPictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\",\r\n  \"ingredients\": [\r\n    {\r\n      \"name\": \"Mock Ingredient 1\",\r\n      \"qta\": \"120 lt\",\r\n      \"pictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\"\r\n    }\r\n  ],\r\n  \"minQta\": 1,\r\n  \"steps\": [\r\n    {\r\n      \"title\": \"Step 1\",\r\n      \"description\": \"Mock Step 1 Description\",\r\n      \"pictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\"\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/recipes/own/65c0f0233c847093217e6fba",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recipes",
+								"own",
+								"65c0f0233c847093217e6fba"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get recipes of an user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YTVjNjM3Njg2OGY5YTQ4MGZiNDdhYyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA2MDU0MjA2LCJleHAiOjE3MDYxNDA2MDZ9.YwLGM-4s9k72jP0cOlEOhdnq5D15Ui6oXtQVndC_bas",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Mock Recipe\",\r\n  \"description\": \"Mock Recipe Description\",\r\n  \"mainPictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\",\r\n  \"ingredients\": [\r\n    {\r\n      \"name\": \"Mock Ingredient 1\",\r\n      \"qta\": \"120 lt\",\r\n      \"pictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\"\r\n    }\r\n  ],\r\n  \"minQta\": 1,\r\n  \"steps\": [\r\n    {\r\n      \"title\": \"Step 1\",\r\n      \"description\": \"Mock Step 1 Description\",\r\n      \"pictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\"\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/recipes/65b2ee6fc22a68fae415a390",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recipes",
+								"65b2ee6fc22a68fae415a390"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get recipe of an user",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YTVjNjM3Njg2OGY5YTQ4MGZiNDdhYyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA2MDU0MjA2LCJleHAiOjE3MDYxNDA2MDZ9.YwLGM-4s9k72jP0cOlEOhdnq5D15Ui6oXtQVndC_bas",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Mock Recipe\",\r\n  \"description\": \"Mock Recipe Description\",\r\n  \"mainPictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\",\r\n  \"ingredients\": [\r\n    {\r\n      \"name\": \"Mock Ingredient 1\",\r\n      \"qta\": \"120 lt\",\r\n      \"pictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\"\r\n    }\r\n  ],\r\n  \"minQta\": 1,\r\n  \"steps\": [\r\n    {\r\n      \"title\": \"Step 1\",\r\n      \"description\": \"Mock Step 1 Description\",\r\n      \"pictureBase64\": \"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAySURBVBhXY3gro/L/w4cPcKy00ec/A4zDwMAAlwALggRgGC4Ik4Cz/39CcMACi178BwBNKkuvOGlydAAAAABJRU5ErkJggg==\"\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/recipes/65b2ee6fc22a68fae415a390/123123123",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recipes",
+								"65b2ee6fc22a68fae415a390",
+								"123123123"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Feed",
+			"item": [
+				{
+					"name": "Get most popular feed",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YjJlZTZmYzIyYTY4ZmFlNDE1YTM5MCIsInVzZXJuYW1lIjoiRGV4YWYyIn0sImlhdCI6MTcwNjI5OTExNiwiZXhwIjoxNzA2Mzg1NTE2fQ.DbCcF8eh8XkPX6m5h7stNzIjcjbSTZvYdka9CdPxzns",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/feed/mostPopular?page=0",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"feed",
+								"mostPopular"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get search suggestion",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YTVjNjM3Njg2OGY5YTQ4MGZiNDdhYyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA1OTYyNDY2LCJleHAiOjE3MDYwNDg4NjZ9._FbFEWF0W1xysgPzB-igj1I0KIQnYvKzToy7VRVQf1s",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/feed/search-suggestion?searchInput=mo&includeQuarters=true",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"feed",
+								"search-suggestion"
+							],
+							"query": [
+								{
+									"key": "searchInput",
+									"value": "mo"
+								},
+								{
+									"key": "includeQuarters",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get personal page feed",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YjJlZTZmYzIyYTY4ZmFlNDE1YTM5MCIsInVzZXJuYW1lIjoiRGV4YWYyIn0sImlhdCI6MTcwNjI5OTExNiwiZXhwIjoxNzA2Mzg1NTE2fQ.DbCcF8eh8XkPX6m5h7stNzIjcjbSTZvYdka9CdPxzns",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/feed/personal?page=0",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"feed",
+								"personal"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get general feed",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/feed/general?page=0",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"feed",
+								"general"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "UserData",
+			"item": [
+				{
+					"name": "Add follower",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YjJlZGI4YzIyYTY4ZmFlNDE1YTM4MyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA2MjI1MTU4LCJleHAiOjE3MDYzMTE1NTh9.r-QhULlcPE5fyl1BrSCuR8dItXsIhkqYZwqnOHcDVhs",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"targetId\": \"65b2ee6fc22a68fae415a390\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/userData/follow/add",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"userData",
+								"follow",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove follower",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YjJlZGI4YzIyYTY4ZmFlNDE1YTM4MyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA2MjI1MTU4LCJleHAiOjE3MDYzMTE1NTh9.r-QhULlcPE5fyl1BrSCuR8dItXsIhkqYZwqnOHcDVhs",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"targetId\": \"65b2ee6fc22a68fae415a390\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/userData/follow/remove",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"userData",
+								"follow",
+								"remove"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get own profile data",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YjJlZGI4YzIyYTY4ZmFlNDE1YTM4MyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA3MTQzMDY0LCJleHAiOjE3MDcyMjk0NjR9.Rc7pJz8WP3_F9YWv77z5sekC7BHOZajxXM9w9eXjH3o",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/userData/profile",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"userData",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update own profile data",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyRGF0YSI6eyJpZCI6IjY1YjJlZGI4YzIyYTY4ZmFlNDE1YTM4MyIsInVzZXJuYW1lIjoiRGV4YWYifSwiaWF0IjoxNzA3MTQzMDY0LCJleHAiOjE3MDcyMjk0NjR9.Rc7pJz8WP3_F9YWv77z5sekC7BHOZajxXM9w9eXjH3o",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"John\",\r\n  \"surname\": \"Doe\",\r\n  \"countryCode\": \"US\",\r\n  \"description\": \"A passionate individual\",\r\n  \"email\": \"john.doe@example.com\",\r\n  \"profilePictureBase64\": \"base64-encoded-image\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/userData/profile",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"userData",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

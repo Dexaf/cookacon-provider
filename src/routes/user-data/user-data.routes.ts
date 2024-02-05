@@ -7,8 +7,8 @@ const userDataRouter = express.Router();
 userDataRouter.post('/profile/own', isAuthGuard, userDataValidationChain.updateProfile, userDataController.updateProfile);
 userDataRouter.get('/profile/own', isAuthGuard, userDataController.getOwnProfile);
 userDataRouter.get('/profile/:userId', isAuthGuard, userDataController.getProfile);
-userDataRouter.post('/follow/add', isAuthGuard, userDataValidationChain.follow, userDataController.addFollow);
-userDataRouter.delete('/follow/remove', isAuthGuard, userDataValidationChain.follow, userDataController.removeFollow);
+userDataRouter.post('/follow/add', isAuthGuard, userDataValidationChain.followAdd, userDataController.addFollow);
+userDataRouter.delete('/follow/remove', isAuthGuard, userDataValidationChain.followRemove, userDataController.removeFollow);
 
 
 export default userDataRouter;

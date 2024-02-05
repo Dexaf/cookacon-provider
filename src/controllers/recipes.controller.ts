@@ -32,7 +32,9 @@ export const addRecipe = async (req: CustomRequest, res: express.Response, next:
       description: body.description,
       ingredients: body.ingredients,
       minQta: body.minQta,
-      steps: body.steps
+      steps: body.steps,
+      cookingTime: body.cookingTime,
+      type: body.type
     })
 
     const recipeRelativePath = `\\public\\${user.id}\\recipes\\${recipe._id}`;
@@ -200,6 +202,8 @@ export const updateOwnRecipe = async (req: CustomRequest, res: express.Response,
     recipe.title = body.title ?? recipe.title;
     recipe.description = body.description ?? recipe.description;
     recipe.minQta = body.minQta ?? recipe.minQta;
+    recipe.cookingTime = body.cookingTime ?? recipe.cookingTime;
+    recipe.type = body.type ?? recipe.type;
 
     recipe.save();
 

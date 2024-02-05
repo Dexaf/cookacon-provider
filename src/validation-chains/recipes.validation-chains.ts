@@ -6,6 +6,7 @@ import { RecipeModel } from "../models/schemas/recipes.schemas.js";
 import { CustomRequest } from "../models/extensions/request.extension.js";
 import { base64MimeType } from "../utils/getBase64MimeType.js";
 import { Ingredient, Step } from "../models/interfaces/recipes.interfaces.js";
+import { RecipeType } from "../models/enum/recipe-type.js";
 
 
 export const addRecipe = [
@@ -84,6 +85,23 @@ export const addRecipe = [
       }
     })
     .withMessage({ message: "STEP_PARAMS_MALFORMED", errorCode: 400 }),
+  ev.body(getfieldName<AddRecipeDtoReq>("type"))
+    .custom((type: string) => {
+      if (type in RecipeType)
+        return true;
+      else
+        throw new Error("TYPE_MALFORMED");
+    })
+    .withMessage({ message: "TYPE_WRONG", errorCode: 422 }),
+  ev.body(getfieldName<AddRecipeDtoReq>("cookingTime"))
+    .custom((cookingTime: string) => {
+      const regex = new RegExp(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)
+      if (regex.test(cookingTime))
+        return true
+      else
+        throw new Error("COOKING_TIME_MALFORMED");
+    })
+    .withMessage({ message: "COOKING_TIME_MALFORMED", errorCode: 422 }),
 ]
 
 export const updateRecipe = [
@@ -111,7 +129,7 @@ export const updateRecipe = [
     .optional()
     .isInt({ min: 1 })
     .withMessage({ message: "MINQTA_ISNT_POSITIVE_INTEGER", errorCode: 422 }),
-  ev.body(getfieldName<AddRecipeDtoReq>("mainPictureBase64"))
+  ev.body(getfieldName<UpdateRecipeDtoReq>("mainPictureBase64"))
     .optional()
     .custom((mainPictureBase64: string) => {
       try {
@@ -121,7 +139,26 @@ export const updateRecipe = [
         throw new Error("base 64 isn't a picture")
       }
     })
-    .withMessage({ message: "MAIN_PICTURE_BASE64_WASNT_PICTURE", errorCode: 422 })
+    .withMessage({ message: "MAIN_PICTURE_BASE64_WASNT_PICTURE", errorCode: 422 }),
+  ev.body(getfieldName<UpdateRecipeDtoReq>("type"))
+    .optional()
+    .custom((type: string) => {
+      if (type in RecipeType)
+        return true;
+      else
+        throw new Error("TYPE_MALFORMED");
+    })
+    .withMessage({ message: "TYPE_WRONG", errorCode: 422 }),
+  ev.body(getfieldName<UpdateRecipeDtoReq>("cookingTime"))
+    .optional()
+    .custom((cookingTime: string) => {
+      const regex = new RegExp(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/)
+      if (regex.test(cookingTime))
+        return true
+      else
+        throw new Error("COOKING_TIME_MALFORMED");
+    })
+    .withMessage({ message: "COOKING_TIME_MALFORMED", errorCode: 422 }),
 ]
 
 export const updateIngredient = [

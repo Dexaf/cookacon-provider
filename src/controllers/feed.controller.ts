@@ -8,40 +8,45 @@ import { RecipeViewsModel } from "../models/schemas/recipesViews.schemas.js";
 import { CustomRequest } from "../models/extensions/request.extension.js";
 import { UserSocialModel } from "../models/schemas/userSocial.schemas.js";
 import { ErrorExt } from "../models/extensions/error.extension.js";
+import { envs } from "../config.js";
 
-//TODO - Improve reliability
 export const searchSuggestion = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
     validationHandlingRoutine(req);
 
     const query = req.query as unknown as SearchSuggestionDtoReq;
 
-    const searchInput = query.searchInput;
-    const includeQuarters = query.includeQuarters;
-
+    const searchedWord = query.searchInput.toLowerCase();
     const suggestedTitles: string[] = []
-
+    const suggestedSearchQta = parseInt(envs!.MONGODB_USER);
     const titles = (await RecipeModel.find({}).select("-_id " + getfieldName<Recipe>("title"))).map(r => { return r.title.toLowerCase() })
 
-    const fullMatch: string[] = [];
-    const halfMatch: string[] = [];
-    const threeQuarteMatch: string[] = [];
-
-    for (const title of titles) {
-      if (title.includes(searchInput))
-        fullMatch.push(title)
-      else if (includeQuarters) {
-        if (searchInput.length > 2 && title.includes(searchInput.substring(0, Math.ceil((searchInput.length / 4) * 2))))
-          halfMatch.push(title)
-        else if (searchInput.length > 4 && title.includes(searchInput.substring(0, Math.ceil((searchInput.length / 4) * 3))))
-          threeQuarteMatch.push(title)
-      }
-
-      if ((fullMatch.length + halfMatch.length + threeQuarteMatch.length) > 9)
+    for (let i = 0; i < titles.length; i++) {
+      if (titles[i] === searchedWord) {
+        suggestedTitles.push(titles[i]);
+        titles.splice(i, 1);
         break;
+      }
     }
 
-    suggestedTitles.push(...fullMatch, ...halfMatch, ...threeQuarteMatch);
+    const wordsInSW = searchedWord.replace(',', '').split(" ").filter(w => w.length > 2).sort((a, b) => (b.length < a.length) ? -1 : (b.length === a.length) ? 0 : 1);
+
+    for (let i = 0; i < wordsInSW.length && suggestedTitles.length < suggestedSearchQta; i++) {
+      const rasonableLength = Math.floor(wordsInSW[i].length / 2);
+
+      for (let j = wordsInSW[i].length; j > rasonableLength && suggestedTitles.length < suggestedSearchQta; j--) {
+        const searchedSubWord = wordsInSW[i].substring(0, j);
+
+        for (let k = 0; k < titles.length && suggestedTitles.length < suggestedSearchQta; k++) {
+          if (titles[k].includes(searchedSubWord)) {
+            suggestedTitles.push(titles[k]);
+            titles.splice(k, 1);
+            k--;
+          }
+        }
+      }
+    }
+
     const status = suggestedTitles.length > 0 ? 200 : 204;
     res.status(status).send(suggestedTitles);
   } catch (error) {
@@ -106,7 +111,7 @@ export const personal = async (req: CustomRequest, res: express.Response, next: 
       .limit(quantity)
       .populate({
         path: "userId",
-        select: ["_id", "username", "profilePictureUrl", "name", "surname"] 
+        select: ["_id", "username", "profilePictureUrl", "name", "surname"]
       }) //FIXME - fix magic string
 
     res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);

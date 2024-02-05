@@ -1,3 +1,4 @@
+import { RecipeType } from "../../enum/recipe-type.js";
 import { Ingredient, Step } from "../../interfaces/recipes.interfaces.js";
 
 export interface AddRecipeDtoReq {
@@ -6,6 +7,8 @@ export interface AddRecipeDtoReq {
   mainPictureBase64?: string;
   ingredients: Ingredient[];
   minQta: number;
+  type: RecipeType,
+  cookingTime: string,
   steps: Step[];
 }
 
@@ -14,4 +17,6 @@ export interface UpdateRecipeDtoReq {
   description?: string;
   mainPictureBase64?: string;
   minQta?: number;
+  type?: RecipeType,
+  cookingTime?: string,
 }

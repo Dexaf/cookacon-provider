@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import { userSchemaName } from "./user.schema.js";
+import { RecipeType } from "../enum/recipe-type.js";
 
 export const recipeSchemaName = "Recipe";
 
@@ -75,6 +76,14 @@ const recipeSchema = new mongoose.Schema({
   },
   steps: {
     type: [stepSchema],
+    required: true
+  },
+  type: {
+    type: String,
+    required: true 
+  },
+  cookingTime: {
+    type: String,
     required: true
   }
 });

@@ -12,6 +12,10 @@ const recipesViews = new mongoose.Schema({
     type: mongoose.Types.ObjectId,
     ref: recipeSchemaName
   }),
+  title: ({
+    type: String,
+    required: true
+  }),
   views: ({
     type: Number,
     default: 0

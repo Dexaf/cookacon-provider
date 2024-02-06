@@ -40,6 +40,7 @@ export const addRecipe = async (req: CustomRequest, res: express.Response, next:
     const recipeRelativePath = `\\public\\${user.id}\\recipes\\${recipe._id}`;
     const projectRoot = path.resolve(process.cwd());
     const savePicturePromises: Promise<void>[] = [];
+    await fsPromises.mkdir(projectRoot + recipeRelativePath);
 
     //RECIPE PICTURES
     if (body.mainPictureBase64) {
@@ -70,9 +71,9 @@ export const addRecipe = async (req: CustomRequest, res: express.Response, next:
     await new RecipeViewsModel({
       _id: new mongoose.Types.ObjectId(),
       recipeId: recipe._id,
-      uploadData: recipe.uploadData
+      uploadData: recipe.uploadData,
+      title: recipe.title
     }).save();
-    await fsPromises.mkdir(projectRoot + recipeRelativePath);
     await Promise.all(savePicturePromises);
 
     res.status(200).send();
@@ -157,7 +158,7 @@ export const deleteOwnRecipe = async (req: CustomRequest, res: express.Response,
 
     const recipeRelativePath = `\\public\\${user.id}\\recipes\\${recipeId}`;
     const projectRoot = path.resolve(process.cwd());
-    await fsPromises.rm(recipeRelativePath + projectRoot);
+    await fsPromises.rm(projectRoot + recipeRelativePath, { recursive: true, force: true })
 
     res.status(204).send();
   } catch (error) {
@@ -204,8 +205,10 @@ export const updateOwnRecipe = async (req: CustomRequest, res: express.Response,
     recipe.cookingTime = body.cookingTime ?? recipe.cookingTime;
     recipe.type = body.type ?? recipe.type;
 
-    recipe.save();
-
+    await recipe.save();
+    if (body.title) {
+      await RecipeViewsModel.findOneAndUpdate({ recipeId: recipeId }, { $set: { title: body.title } });
+    }
     if (savePicturePromise) {
       await Promise.resolve(savePicturePromise);
       if (oldPath)

@@ -11,6 +11,6 @@ export const validationHandlingRoutine = (req: express.Request) => {
 export const errorHandlingRoutine = (error: any, next: express.NextFunction) => {
   let _error = error;
   if (!(_error instanceof ErrorExt))
-    _error = new ErrorExt("UNKOWN_ERROR", 500);
+    _error = new ErrorExt(_error.code, 500);
   return next(_error);
 }

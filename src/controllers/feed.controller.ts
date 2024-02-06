@@ -1,6 +1,6 @@
 import express from "express";
 import { errorHandlingRoutine, validationHandlingRoutine } from "../utils/errorHandlingRoutines.js";
-import { SearchDtoReq, SearchSuggestionDtoReq } from "../models/dto/req/feed.dto.req.js";
+import { SearchByTitleReq, SearchDtoReq, SearchSuggestionDtoReq } from "../models/dto/req/feed.dto.req.js";
 import { RecipeModel } from "../models/schemas/recipes.schemas.js";
 import { Recipe } from "../models/interfaces/recipes.interfaces.js";
 import { getfieldName } from "../utils/getFieldName.js";
@@ -15,40 +15,46 @@ export const searchSuggestion = async (req: express.Request, res: express.Respon
     validationHandlingRoutine(req);
 
     const query = req.query as unknown as SearchSuggestionDtoReq;
-
     const searchedWord = query.searchInput.toLowerCase();
-    const suggestedTitles: string[] = []
     const suggestedSearchQta = parseInt(envs!.MONGODB_USER);
-    const titles = (await RecipeModel.find({}).select("-_id " + getfieldName<Recipe>("title"))).map(r => { return r.title.toLowerCase() })
 
-    for (let i = 0; i < titles.length; i++) {
-      if (titles[i] === searchedWord) {
-        suggestedTitles.push(titles[i]);
-        titles.splice(i, 1);
-        break;
-      }
-    }
+    const words = searchedWord.split(" ");
+    const regexPattern = words.map(word => `(?=.*${word})`).join("");
+    const regex = new RegExp(regexPattern, "i");
 
-    const wordsInSW = searchedWord.replace(',', '').split(" ").filter(w => w.length > 2).sort((a, b) => (b.length < a.length) ? -1 : (b.length === a.length) ? 0 : 1);
+    const foundRecipes = await RecipeViewsModel
+      .find({ title: regex })
+      .select(getfieldName<Recipe>('title'))
+      .limit(suggestedSearchQta)
+      .sort({ views: "desc" })
 
-    for (let i = 0; i < wordsInSW.length && suggestedTitles.length < suggestedSearchQta; i++) {
-      const rasonableLength = Math.floor(wordsInSW[i].length / 2);
+    res.status(foundRecipes.length > 0 ? 200 : 204).send(foundRecipes);
+  } catch (error) {
+    errorHandlingRoutine(error, next);
+  }
+}
 
-      for (let j = wordsInSW[i].length; j > rasonableLength && suggestedTitles.length < suggestedSearchQta; j--) {
-        const searchedSubWord = wordsInSW[i].substring(0, j);
+export const searchByTitle = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  try {
+    validationHandlingRoutine(req);
 
-        for (let k = 0; k < titles.length && suggestedTitles.length < suggestedSearchQta; k++) {
-          if (titles[k].includes(searchedSubWord)) {
-            suggestedTitles.push(titles[k]);
-            titles.splice(k, 1);
-            k--;
-          }
-        }
-      }
-    }
+    const query = req.query as unknown as SearchByTitleReq;
+    const quantity = query.quantity ?? 10;
+    const page = +query.page;
+    const searchedWord = query.searchInput.toLowerCase();
 
-    const status = suggestedTitles.length > 0 ? 200 : 204;
-    res.status(status).send(suggestedTitles);
+    const words = searchedWord.split(" ");
+    const regexPattern = words.map(word => `(?=.*${word})`).join("");
+    const regex = new RegExp(regexPattern, "i");
+
+    const foundRecipes = await RecipeViewsModel
+      .find({ title: regex })
+      .skip(page * quantity)
+      .limit(quantity)
+      .populate({ path: "recipeId" }) //FIXME - fix magic string
+      .sort({ views: "desc" })
+
+    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
   } catch (error) {
     errorHandlingRoutine(error, next);
   }

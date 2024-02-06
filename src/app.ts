@@ -17,7 +17,7 @@ const main = async () => {
       const app = express();
 
       //connect to mongoose
-      await connect()
+      await connect();
 
       //SECTION - MIDDLEWARES
       app.use(express.json({ limit: '1mb' }));

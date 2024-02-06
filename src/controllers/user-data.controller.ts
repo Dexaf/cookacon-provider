@@ -51,7 +51,6 @@ export const updateProfile = async (req: CustomRequest, res: express.Response, n
   }
 }
 
-//TODO - CHECK DOUBLE IN VAL CHAINS
 export const addFollow = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
   try {
     validationHandlingRoutine(req);
@@ -76,7 +75,6 @@ export const addFollow = async (req: CustomRequest, res: express.Response, next:
   }
 }
 
-//TODO - CHECK DOUBLE IN VAL CHAINS
 export const removeFollow = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
   try {
     validationHandlingRoutine(req);

@@ -12,7 +12,7 @@ import { errorHandlingRoutine, validationHandlingRoutine } from "../utils/errorH
 import path from "path";
 import { UserSocialModel } from "../models/schemas/userSocial.schemas.js";
 
-export const signOn = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+export const signIn = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   try {
     validationHandlingRoutine(req);
 

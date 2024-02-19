@@ -38,7 +38,7 @@
 					"response": []
 				},
 				{
-					"name": "SignOn",
+					"name": "SignIn",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -52,14 +52,14 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/Auth/SignOn",
+							"raw": "localhost:3000/Auth/SignIn",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
 								"Auth",
-								"SignOn"
+								"SignIn"
 							]
 						}
 					},

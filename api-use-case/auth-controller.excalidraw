@@ -183,11 +183,11 @@
       "locked": false,
       "fontSize": 20,
       "fontFamily": 1,
-      "text": "POST - /auth/signOn",
+      "text": "POST - /auth/signIn",
       "textAlign": "left",
       "verticalAlign": "top",
       "containerId": null,
-      "originalText": "POST - /auth/signOn",
+      "originalText": "POST - /auth/signIn",
       "lineHeight": 1.25,
       "baseline": 18
     },

@@ -4,7 +4,7 @@ import * as authenticationValidationChains from "../../validation-chains/authent
 
 const authenticationRouter = express.Router();
 
-authenticationRouter.post('/signOn', authenticationValidationChains.singOn, authenticationController.signOn)
+authenticationRouter.post('/signIn', authenticationValidationChains.signIn, authenticationController.signIn)
 authenticationRouter.post('/logIn', authenticationValidationChains.logIn, authenticationController.logIn)
 
 export default authenticationRouter;

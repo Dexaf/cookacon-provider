@@ -3,7 +3,7 @@ import { getfieldName } from "../utils/getFieldName.js";
 import { UserModel } from "../models/schemas/user.schema.js";
 import { SignOnDtoReq } from "../models/dto/req/authentication.dto.req.js";
 
-export const singOn = [
+export const signIn = [
   ev.body(getfieldName<SignOnDtoReq>("username"))
     .exists()
     .withMessage({ message: "MISSING_USERNAME", errorCode: 400 })

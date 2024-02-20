@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 
 import { envs } from './config.js'
 import { connect } from './mongoose-starter.js';
@@ -18,8 +19,12 @@ const main = async () => {
 
       //connect to mongoose
       await connect();
-
       //SECTION - MIDDLEWARES
+      app.use(cors({ 
+        origin: envs.CORS_ORIGIN,
+        optionsSuccessStatus: 200,
+        methods: ["POST", "PATCH", "GET", "DELETE", "PUT"]
+      }))
       app.use(express.json({ limit: '1mb' }));
       app.use(bodyParserMiddleware);
       app.use(headersMiddleware);

@@ -65,7 +65,9 @@ export const logIn = async (req: express.Request, res: express.Response, next: e
       username: user.username
     };
 
-    const token = jwt.sign({ userData }, envs!.JWT_SECRET, { expiresIn: envs!.JWT_EXPIRATIONS })
+    const token = {
+      token: jwt.sign({ userData }, envs!.JWT_SECRET, { expiresIn: envs!.JWT_EXPIRATIONS })
+    }
 
     res.send(token)
   } catch (error: any) {

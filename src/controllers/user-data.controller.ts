@@ -8,7 +8,8 @@ import path from "path";
 import { base64MimeType } from "../utils/getBase64MimeType.js";
 import { savePicture } from "../utils/savePicture.js";
 import { UserSocialModel } from "../models/schemas/userSocial.schemas.js";
-import UserDtoRes from "../models/dto/res/user-data.dto.res.js";
+import ProfileDtoRes from "../models/dto/res/user-data.dto.res.js";
+import { CountryCodesEnum } from "../models/enum/country-codes.js";
 
 export const updateProfile = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
   try {
@@ -108,9 +109,16 @@ export const getOwnProfile = async (req: CustomRequest, res: express.Response, n
       throw new ErrorExt("USER_NO_MATCH", 404);
     }
 
-    const profileData: UserDtoRes = {
-      username: user.username
-    }
+    const profileData: ProfileDtoRes = {
+      username: user.username,
+      name: user.name ?? undefined,
+      surname: user.surname ?? undefined,
+      countryCode: user.countryCode ?? undefined,
+      description: user.description ?? undefined,
+      email: user.email ?? undefined,
+      profilePictureUrl: user.profilePictureUrl ?? undefined
+    };
+    
     res.send(profileData);
   } catch (error) {
     errorHandlingRoutine(error, next);
@@ -128,9 +136,16 @@ export const getProfile = async (req: CustomRequest, res: express.Response, next
       throw new ErrorExt("USER_NO_MATCH", 404);
     }
 
-    const profileData: UserDtoRes = {
-      username: user.username
-    }
+    const profileData: ProfileDtoRes = {
+      username: user.username,
+      name: user.name ?? undefined,
+      surname: user.surname ?? undefined,
+      countryCode: user.countryCode ?? undefined,
+      description: user.description ?? undefined,
+      email: user.email ?? undefined,
+      profilePictureUrl: user.profilePictureUrl ?? undefined
+    };
+
     res.send(profileData);
   } catch (error) {
     errorHandlingRoutine(error, next);

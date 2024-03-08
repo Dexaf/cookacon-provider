@@ -152,3 +152,27 @@ export const own = async (req: CustomRequest, res: express.Response, next: expre
     errorHandlingRoutine(error, next);
   }
 }
+
+export const user = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
+  try {
+    validationHandlingRoutine(req);
+
+    const query = req.query as unknown as SearchDtoReq;
+    const quantity = query.quantity ?? 10;
+    const page = +query.page;
+    const userId = req.params.userId;
+
+    const foundRecipes = await RecipeModel
+      .find({ userId: userId })
+      .skip(page * quantity)
+      .limit(quantity)
+      .populate({
+        path: "userId",
+        select: ["_id", "username", "profilePictureUrl", "name", "surname"]
+      }) //FIXME - fix magic string
+
+    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
+  } catch (error) {
+    errorHandlingRoutine(error, next);
+  }
+}

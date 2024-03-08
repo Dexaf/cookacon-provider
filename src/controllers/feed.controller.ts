@@ -54,7 +54,7 @@ export const searchByTitle = async (req: express.Request, res: express.Response,
       .populate({ path: "recipeId" }) //FIXME - fix magic string
       .sort({ views: "desc" })
 
-    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
+      res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes.map(recipe => recipe.recipeId));
   } catch (error) {
     errorHandlingRoutine(error, next);
   }
@@ -73,7 +73,7 @@ export const mostPopular = async (req: express.Request, res: express.Response, n
       .populate({ path: "recipeId" }) //FIXME - fix magic string
       .sort({ views: "desc" })
 
-    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
+    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes.map(recipe => recipe.recipeId));
   } catch (error) {
     errorHandlingRoutine(error, next);
   }
@@ -91,8 +91,7 @@ export const general = async (req: express.Request, res: express.Response, next:
       .skip(page * quantity)
       .limit(quantity)
       .populate({ path: "recipeId" }) //FIXME - fix magic string
-    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
-
+    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes.map(recipe => recipe.recipeId));
   } catch (error) {
     errorHandlingRoutine(error, next);
   }
@@ -120,7 +119,7 @@ export const personal = async (req: CustomRequest, res: express.Response, next: 
         select: ["_id", "username", "profilePictureUrl", "name", "surname"]
       }) //FIXME - fix magic string
 
-    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
+    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes.map(recipe => recipe.userId));
   } catch (error) {
     errorHandlingRoutine(error, next);
   }
@@ -147,7 +146,7 @@ export const own = async (req: CustomRequest, res: express.Response, next: expre
         select: ["_id", "username", "profilePictureUrl", "name", "surname"]
       }) //FIXME - fix magic string
 
-    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
+    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes.map(recipe => recipe.userId));
   } catch (error) {
     errorHandlingRoutine(error, next);
   }
@@ -171,7 +170,7 @@ export const user = async (req: CustomRequest, res: express.Response, next: expr
         select: ["_id", "username", "profilePictureUrl", "name", "surname"]
       }) //FIXME - fix magic string
 
-    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
+    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes.map(recipe => recipe.userId));
   } catch (error) {
     errorHandlingRoutine(error, next);
   }

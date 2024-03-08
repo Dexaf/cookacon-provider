@@ -32,8 +32,8 @@ export const signIn = async (req: express.Request, res: express.Response, next: 
 
     //create default user dirs
     const projectRoot = path.resolve(process.cwd())
-    await fsPromises.mkdir(`${projectRoot}\\public\\${newUser._id}`);
-    await fsPromises.mkdir(`${projectRoot}\\public\\${newUser._id}\\recipes`);
+    await fsPromises.mkdir(`${projectRoot}/public/${newUser._id}`);
+    await fsPromises.mkdir(`${projectRoot}/public/${newUser._id}/recipes`);
 
     const userData = {
       id: newUser._id,

@@ -37,7 +37,7 @@ export const addRecipe = async (req: CustomRequest, res: express.Response, next:
       type: body.type
     })
 
-    const recipeRelativePath = `\\public\\${user.id}\\recipes\\${recipe._id}`;
+    const recipeRelativePath = `/public/${user.id}/recipes/${recipe._id}`;
     const projectRoot = path.resolve(process.cwd());
     const savePicturePromises: Promise<void>[] = [];
     await fsPromises.mkdir(projectRoot + recipeRelativePath);
@@ -45,7 +45,7 @@ export const addRecipe = async (req: CustomRequest, res: express.Response, next:
     //RECIPE PICTURES
     if (body.mainPictureBase64) {
       const imageExtension = base64MimeType(body.mainPictureBase64);
-      recipe.mainPictureUrl = recipeRelativePath + `\\${recipe._id}.${imageExtension.split("/")[1]}`;
+      recipe.mainPictureUrl = recipeRelativePath + `/${recipe._id}.${imageExtension.split("/")[1]}`;
       savePicturePromises.push(savePicture(body.mainPictureBase64, projectRoot + recipe.mainPictureUrl));
     }
 
@@ -53,7 +53,7 @@ export const addRecipe = async (req: CustomRequest, res: express.Response, next:
     for (let i = 0; i < body.ingredients.length; i++) {
       if (body.ingredients[i].pictureBase64) {
         const imageExtension = base64MimeType(body.ingredients[i].pictureBase64!);
-        recipe.ingredients[i].pictureUrl = recipeRelativePath + `\\${recipe.ingredients[i]._id}.${imageExtension.split("/")[1]}`
+        recipe.ingredients[i].pictureUrl = recipeRelativePath + `/${recipe.ingredients[i]._id}.${imageExtension.split("/")[1]}`
         savePicturePromises.push(savePicture(body.ingredients[i].pictureBase64!, projectRoot + recipe.ingredients[i].pictureUrl));
       }
     }
@@ -62,7 +62,7 @@ export const addRecipe = async (req: CustomRequest, res: express.Response, next:
     for (let i = 0; i < body.steps.length; i++) {
       if (body.steps[i].pictureBase64) {
         const imageExtension = base64MimeType(body.steps[i].pictureBase64!);
-        recipe.steps[i].pictureUrl = recipeRelativePath + `\\${recipe.steps[i]._id}.${imageExtension.split("/")[1]}`
+        recipe.steps[i].pictureUrl = recipeRelativePath + `/${recipe.steps[i]._id}.${imageExtension.split("/")[1]}`
         savePicturePromises.push(savePicture(body.steps[i].pictureBase64!, projectRoot + recipe.steps[i].pictureUrl));
       }
     }
@@ -156,7 +156,7 @@ export const deleteOwnRecipe = async (req: CustomRequest, res: express.Response,
 
     await RecipeViewsModel.deleteOne({ $and: [{ recipesId: recipeId }] });
 
-    const recipeRelativePath = `\\public\\${user.id}\\recipes\\${recipeId}`;
+    const recipeRelativePath = `/public/${user.id}/recipes/${recipeId}`;
     const projectRoot = path.resolve(process.cwd());
     await fsPromises.rm(projectRoot + recipeRelativePath, { recursive: true, force: true })
 
@@ -185,12 +185,12 @@ export const updateOwnRecipe = async (req: CustomRequest, res: express.Response,
     let savePicturePromise: Promise<void> | null = null;
     let oldPath: string | null = null;
     if (body.mainPictureBase64) {
-      const recipeRelativePath = `\\public\\${user.id}\\recipes\\${recipe._id}`;
+      const recipeRelativePath = `/public/${user.id}/recipes/${recipe._id}`;
       const projectRoot = path.resolve(process.cwd());
       const imageExtension = base64MimeType(body.mainPictureBase64);
 
       oldPath = projectRoot + recipe.mainPictureUrl;
-      recipe.mainPictureUrl = recipeRelativePath + `\\pic.${imageExtension.split("/")[1]}`;
+      recipe.mainPictureUrl = recipeRelativePath + `/pic.${imageExtension.split("/")[1]}`;
 
       //NOTE - extension may change, in that case we need to delete the old pic path
       if (oldPath === projectRoot + recipe.mainPictureUrl)
@@ -248,12 +248,12 @@ export const updateOwnRecipeIngredient = async (req: CustomRequest, res: express
     let savePicturePromise: Promise<void> | null = null;
     let oldPath: string | null = null;
     if (body.pictureBase64) {
-      const recipeRelativePath = `\\public\\${user.id}\\recipes\\${recipe._id}`;
+      const recipeRelativePath = `/public/${user.id}/recipes/${recipe._id}`;
       const projectRoot = path.resolve(process.cwd());
       const imageExtension = base64MimeType(body.pictureBase64!);
 
       oldPath = projectRoot + ingredient.pictureUrl;
-      ingredient.pictureUrl = recipeRelativePath + `\\${ingredient._id}.${imageExtension.split("/")[1]}`
+      ingredient.pictureUrl = recipeRelativePath + `/${ingredient._id}.${imageExtension.split("/")[1]}`
 
       //NOTE - extension may change, in that case we need to delete the old pic path
       if (oldPath === projectRoot + ingredient.pictureUrl)
@@ -304,12 +304,12 @@ export const updateOwnRecipeStep = async (req: CustomRequest, res: express.Respo
     let savePicturePromise: Promise<void> | null = null;
     let oldPath: string | null = null;
     if (body.pictureBase64) {
-      const recipeRelativePath = `\\public\\${user.id}\\recipes\\${recipe._id}`;
+      const recipeRelativePath = `/public/${user.id}/recipes/${recipe._id}`;
       const projectRoot = path.resolve(process.cwd());
       const imageExtension = base64MimeType(body.pictureBase64!);
 
       oldPath = projectRoot + step.pictureUrl;
-      step.pictureUrl = recipeRelativePath + `\\${step._id}.${imageExtension.split("/")[1]}`
+      step.pictureUrl = recipeRelativePath + `/${step._id}.${imageExtension.split("/")[1]}`
 
       //NOTE - extension may change, in that case we need to delete the old pic path
       if (oldPath === projectRoot + step.pictureUrl)

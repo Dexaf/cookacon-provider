@@ -32,7 +32,7 @@ export const updateProfile = async (req: CustomRequest, res: express.Response, n
 
     if (body.profilePictureBase64) {
       const imageExtension = base64MimeType(body.profilePictureBase64)
-      relativeImagePath = `\\public\\${user.id}\\pic.${imageExtension.split("/")[1]}`
+      relativeImagePath = `/public/${user.id}/pic.${imageExtension.split("/")[1]}`
       user.profilePictureUrl = relativeImagePath;
     }
 

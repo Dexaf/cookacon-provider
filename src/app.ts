@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import path from "path";
 
 import { envs } from './config.js'
 import { connect } from './mongoose-starter.js';
@@ -26,6 +27,7 @@ const main = async () => {
         methods: ["POST", "PATCH", "GET", "DELETE", "PUT"]
       }))
       app.use(express.json({ limit: '1mb' }));
+      app.use('/public', express.static('public'));
       app.use(bodyParserMiddleware);
       app.use(headersMiddleware);
       //!SECTION - MIDDLEWARES

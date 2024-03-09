@@ -51,10 +51,11 @@ export const searchByTitle = async (req: express.Request, res: express.Response,
       .find({ title: regex })
       .skip(page * quantity)
       .limit(quantity)
-      .populate({ path: "recipeId" }) //FIXME - fix magic string
+      .populate({ path: "recipeId" })
+      //FIXME - fix magic string
       .sort({ views: "desc" })
 
-      res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes.map(recipe => recipe.recipeId));
+    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes.map(recipe => recipe.recipeId));
   } catch (error) {
     errorHandlingRoutine(error, next);
   }
@@ -67,10 +68,17 @@ export const mostPopular = async (req: express.Request, res: express.Response, n
     const quantity = query.quantity ?? 10;
     const page = +query.page;
 
-    const foundRecipes = await RecipeViewsModel.find()
+    const foundRecipes = await RecipeViewsModel
+      .find()
       .skip(page * quantity)
       .limit(quantity)
-      .populate({ path: "recipeId" }) //FIXME - fix magic string
+      .populate({
+        path: "recipeId",
+        populate: {
+          path: "userId",
+          select: ["_id", "username", "profilePictureUrl", "name", "surname"]
+        }
+      })
       .sort({ views: "desc" })
 
     res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes.map(recipe => recipe.recipeId));
@@ -90,8 +98,14 @@ export const general = async (req: express.Request, res: express.Response, next:
       .find()
       .skip(page * quantity)
       .limit(quantity)
-      .populate({ path: "recipeId" }) //FIXME - fix magic string
-    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes.map(recipe => recipe.recipeId));
+      .populate({
+        path: "recipeId",
+        populate: {
+          path: "userId",
+          select: ["_id", "username", "profilePictureUrl", "name", "surname"]
+        }
+      })
+    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
   } catch (error) {
     errorHandlingRoutine(error, next);
   }
@@ -117,9 +131,9 @@ export const personal = async (req: CustomRequest, res: express.Response, next: 
       .populate({
         path: "userId",
         select: ["_id", "username", "profilePictureUrl", "name", "surname"]
-      }) //FIXME - fix magic string
+      })
 
-    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes.map(recipe => recipe.userId));
+    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
   } catch (error) {
     errorHandlingRoutine(error, next);
   }
@@ -144,9 +158,9 @@ export const own = async (req: CustomRequest, res: express.Response, next: expre
       .populate({
         path: "userId",
         select: ["_id", "username", "profilePictureUrl", "name", "surname"]
-      }) //FIXME - fix magic string
+      })
 
-    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes.map(recipe => recipe.userId));
+    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
   } catch (error) {
     errorHandlingRoutine(error, next);
   }
@@ -159,7 +173,7 @@ export const user = async (req: CustomRequest, res: express.Response, next: expr
     const userId = req.user!.id;
     if (!userId)
       throw new ErrorExt('USER_NO_MATCH', 404);
-    
+
     const query = req.query as unknown as SearchDtoReq;
     const quantity = query.quantity ?? 10;
     const page = +query.page;
@@ -171,9 +185,9 @@ export const user = async (req: CustomRequest, res: express.Response, next: expr
       .populate({
         path: "userId",
         select: ["_id", "username", "profilePictureUrl", "name", "surname"]
-      }) //FIXME - fix magic string
+      })
 
-    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes.map(recipe => recipe.userId));
+    res.status(foundRecipes.length === 0 ? 204 : 200).send(foundRecipes);
   } catch (error) {
     errorHandlingRoutine(error, next);
   }

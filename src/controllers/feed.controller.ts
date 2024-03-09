@@ -156,10 +156,13 @@ export const user = async (req: CustomRequest, res: express.Response, next: expr
   try {
     validationHandlingRoutine(req);
 
+    const userId = req.user!.id;
+    if (!userId)
+      throw new ErrorExt('USER_NO_MATCH', 404);
+    
     const query = req.query as unknown as SearchDtoReq;
     const quantity = query.quantity ?? 10;
     const page = +query.page;
-    const userId = req.params.userId;
 
     const foundRecipes = await RecipeModel
       .find({ userId: userId })

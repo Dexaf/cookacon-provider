@@ -9,8 +9,8 @@ feedRouter.get('/searchSuggestion', feedValidationChains.searchSuggestion, feedC
 feedRouter.get('/searchByTitle', feedValidationChains.searchByTitle, feedController.searchByTitle);
 feedRouter.get('/mostPopular', feedValidationChains.pagination, feedController.mostPopular);
 feedRouter.get('/general', feedValidationChains.pagination, feedController.general);
+feedRouter.get('/personal', isAuthGuard, feedValidationChains.pagination, feedController.personal);
+feedRouter.get('/own', isAuthGuard, feedValidationChains.pagination, feedController.own);
 feedRouter.get('/:userId', feedValidationChains.pagination, feedController.user);
-feedRouter.get('/personal', feedValidationChains.pagination, isAuthGuard, feedController.personal);
-feedRouter.get('/own', feedValidationChains.pagination, isAuthGuard, feedController.own);
 
 export default feedRouter;

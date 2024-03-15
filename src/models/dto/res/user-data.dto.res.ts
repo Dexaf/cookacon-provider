@@ -1,4 +1,5 @@
 export default interface ProfileDtoRes {
+  id?: string;
   username: string;
   name?: string;
   surname?: string;

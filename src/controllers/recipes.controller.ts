@@ -117,7 +117,12 @@ export const getUserRecipes = async (req: express.Request, res: express.Response
   try {
     const userId = req.params.userId;
 
-    const recipes = await RecipeModel.find({ userId: userId });
+    const recipes = await RecipeModel
+      .find({ userId: userId })
+      .populate({
+        path: "userId",
+        select: ["_id", "username", "profilePictureUrl", "name", "surname"]
+      });
 
     res.status(recipes.length > 0 ? 200 : 204).send(recipes);
   } catch (error) {
@@ -130,7 +135,12 @@ export const getUserRecipe = async (req: express.Request, res: express.Response,
     const userId = req.params.userId;
     const recipeId = req.params.recipeId;
 
-    const recipe = await RecipeModel.findOne({ $and: [{ userId: userId }, { _id: recipeId }] });
+    const recipe = await RecipeModel
+      .findOne({ $and: [{ userId: userId }, { _id: recipeId }] })
+      .populate({
+        path: "userId",
+        select: ["_id", "username", "profilePictureUrl", "name", "surname"]
+      });
     if (!recipe)
       throw new ErrorExt("RECIPE_OR_USER_NO_MATCH", 404);
 

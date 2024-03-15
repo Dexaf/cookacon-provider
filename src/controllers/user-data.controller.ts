@@ -9,6 +9,7 @@ import { base64MimeType } from "../utils/getBase64MimeType.js";
 import { savePicture } from "../utils/savePicture.js";
 import { UserSocialModel } from "../models/schemas/userSocial.schemas.js";
 import ProfileDtoRes from "../models/dto/res/user-data.dto.res.js";
+import mongoose from "mongoose";
 
 export const updateProfile = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
   try {
@@ -109,6 +110,7 @@ export const getOwnProfile = async (req: CustomRequest, res: express.Response, n
     }
 
     const profileData: ProfileDtoRes = {
+      id: user.id,
       username: user.username,
       name: user.name ?? undefined,
       surname: user.surname ?? undefined,

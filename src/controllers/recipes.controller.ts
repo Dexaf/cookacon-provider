@@ -345,6 +345,8 @@ export const updateOwnRecipeStep = async (req: CustomRequest, res: express.Respo
 
 export const deleteOwnRecipeIngredient = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
   try {
+    validationHandlingRoutine(req);
+
     const user = UserModel.findById(req.user!.id);
     if (!user)
       throw new ErrorExt("USER_NO_MATCH", 404);
@@ -383,6 +385,8 @@ export const deleteOwnRecipeIngredient = async (req: CustomRequest, res: express
 
 export const deleteOwnRecipeStep = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
   try {
+    validationHandlingRoutine(req);
+
     const user = UserModel.findById(req.user!.id);
     if (!user)
       throw new ErrorExt("USER_NO_MATCH", 404);
@@ -417,4 +421,56 @@ export const deleteOwnRecipeStep = async (req: CustomRequest, res: express.Respo
   } catch (error) {
     errorHandlingRoutine(error, next);
   }
-} 
+}
+
+export const addOwnRecipeSteps = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
+  try {
+    validationHandlingRoutine(req);
+
+    const user = UserModel.findById(req.user!.id);
+    if (!user)
+      throw new ErrorExt("USER_NO_MATCH", 404);
+
+    const recipeId = req.params.recipeId;
+    const recipe = await RecipeModel.findOne({ _id: recipeId });
+
+    if (!recipe)
+      throw new ErrorExt("RECIPE_NO_MATCH", 404)
+
+    const body: Step[] = req.body;
+
+    recipe.steps.push(...body)
+
+    await recipe.save();
+
+    res.status(200).send();
+  } catch (error) {
+    errorHandlingRoutine(error, next);
+  }
+}
+
+export const addOwnRecipeIngredients = async (req: CustomRequest, res: express.Response, next: express.NextFunction) => {
+  try {
+    validationHandlingRoutine(req);
+
+    const user = UserModel.findById(req.user!.id);
+    if (!user)
+      throw new ErrorExt("USER_NO_MATCH", 404);
+
+    const recipeId = req.params.recipeId;
+    const recipe = await RecipeModel.findOne({ _id: recipeId });
+
+    if (!recipe)
+      throw new ErrorExt("RECIPE_NO_MATCH", 404)
+
+    const body: Ingredient[] = req.body;
+
+    recipe.ingredients.push(...body)
+
+    await recipe.save();
+
+    res.status(200).send();
+  } catch (error) {
+    errorHandlingRoutine(error, next);
+  }
+}

@@ -21,12 +21,16 @@ recipesRouter.patch('/own/:recipeId', isAuthGuard, recipeValidationChains.update
 recipesRouter.patch('/own/:recipeId/ingredient/:ingredientId', isAuthGuard, recipeValidationChains.updateIngredient, recipesController.updateOwnRecipeIngredient);
 //delete an ingredient of a recipe of an authenticated account
 recipesRouter.delete('/own/:recipeId/ingredient/:ingredientId', isAuthGuard, recipesController.deleteOwnRecipeIngredient);
+//add ingredients of a recipe of an authenticated account
+recipesRouter.post('/own/:recipeId/ingredient/add', isAuthGuard, recipeValidationChains.addIngredient, recipesController.addOwnRecipeIngredients);
 
 //STEPS
 //update a step of a recipe of an authenticated account
 recipesRouter.patch('/own/:recipeId/step/:stepId', isAuthGuard, recipeValidationChains.updateStep, recipesController.updateOwnRecipeStep);
 //delete a step of a recipe of an authenticated account
 recipesRouter.delete('/own/:recipeId/step/:stepId', isAuthGuard, recipesController.deleteOwnRecipeStep);
+//add steps of a recipe of an authenticated account
+recipesRouter.post('/own/:recipeId/step/add', isAuthGuard, recipeValidationChains.addSteps, recipesController.addOwnRecipeSteps);
 
 //get all recipes of an account
 recipesRouter.get('/:userId/', recipesController.getUserRecipes);

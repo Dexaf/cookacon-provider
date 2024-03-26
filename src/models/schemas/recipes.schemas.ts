@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 import { userSchemaName } from "./user.schema.js";
-import { RecipeType } from "../enum/recipe-type.js";
 
 export const recipeSchemaName = "Recipe";
 

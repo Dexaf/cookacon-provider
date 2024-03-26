@@ -217,3 +217,31 @@ export const updateStep = [
     })
     .withMessage({ message: "PICTUREBASE64_NOT_BASE64", errorCode: 422 }),
 ]
+
+export const addSteps = [
+  ev.body()
+    .custom((steps: Step[]) => {
+      if (steps.length === 0)
+        throw new Error("no steps added");
+      steps.forEach(s => {
+        if (!s.description || !s.pictureBase64 || !s.title)
+          throw new Error("step malformed");
+      })
+      return true;
+    })
+    .withMessage({ message: "BODY_MALFORMED", errorCode: 422 }),
+]
+
+export const addIngredient = [
+  ev.body()
+    .custom((steps: Ingredient[]) => {
+      if (steps.length === 0)
+        throw new Error("no ingredients added");
+      steps.forEach(s => {
+        if (!s.name || !s.pictureBase64 || !s.qta)
+          throw new Error("ingredient malformed");
+      })
+      return true;
+    })
+    .withMessage({ message: "BODY_MALFORMED", errorCode: 422 }),
+]

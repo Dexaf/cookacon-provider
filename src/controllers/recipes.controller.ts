@@ -437,11 +437,25 @@ export const addOwnRecipeSteps = async (req: CustomRequest, res: express.Respons
     if (!recipe)
       throw new ErrorExt("RECIPE_NO_MATCH", 404)
 
-    const body: Step[] = req.body;
+    const steps: Step[] = req.body;
 
-    recipe.steps.push(...body)
+    recipe.steps.push(...steps)
+
+    const recipeRelativePath = `/public/${req.user!.id}/recipes/${recipe._id}`;
+    const projectRoot = path.resolve(process.cwd());
+    const savePicturePromises: Promise<void>[] = [];
+
+    //STEPS PICTURES
+    for (let i = 0; i < steps.length; i++) {
+      if (steps[i].pictureBase64) {
+        const imageExtension = base64MimeType(steps[i].pictureBase64!);
+        recipe.steps[i].pictureUrl = recipeRelativePath + `/${recipe.steps[i]._id}.${imageExtension.split("/")[1]}`
+        savePicturePromises.push(savePicture(steps[i].pictureBase64!, projectRoot + recipe.steps[i].pictureUrl));
+      }
+    }
 
     await recipe.save();
+    await Promise.all(savePicturePromises);
 
     res.status(200).send();
   } catch (error) {
@@ -463,11 +477,25 @@ export const addOwnRecipeIngredients = async (req: CustomRequest, res: express.R
     if (!recipe)
       throw new ErrorExt("RECIPE_NO_MATCH", 404)
 
-    const body: Ingredient[] = req.body;
+    const ingredients: Ingredient[] = req.body;
 
-    recipe.ingredients.push(...body)
+    recipe.ingredients.push(...ingredients)
+
+    const recipeRelativePath = `/public/${req.user!.id}/recipes/${recipe._id}`;
+    const projectRoot = path.resolve(process.cwd());
+    const savePicturePromises: Promise<void>[] = [];
+
+    //INGREDIENTS PICTURES
+    for (let i = 0; i < ingredients.length; i++) {
+      if (ingredients[i].pictureBase64) {
+        const imageExtension = base64MimeType(ingredients[i].pictureBase64!);
+        recipe.ingredients[i].pictureUrl = recipeRelativePath + `/${recipe.ingredients[i]._id}.${imageExtension.split("/")[1]}`
+        savePicturePromises.push(savePicture(ingredients[i].pictureBase64!, projectRoot + recipe.ingredients[i].pictureUrl));
+      }
+    }
 
     await recipe.save();
+    await Promise.all(savePicturePromises);
 
     res.status(200).send();
   } catch (error) {

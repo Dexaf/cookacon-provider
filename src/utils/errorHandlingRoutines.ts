@@ -11,6 +11,8 @@ export const validationHandlingRoutine = (req: express.Request) => {
 export const errorHandlingRoutine = (error: any, next: express.NextFunction) => {
   let _error = error;
   if (!(_error instanceof ErrorExt))
-    _error = new ErrorExt(_error.code, 500);
+    _error = new ErrorExt(_error.code ?? "BODY_MALFORMED", 500);
+  if(_error.errors.length === 0)
+  _error.errors = error.errors
   return next(_error);
 }

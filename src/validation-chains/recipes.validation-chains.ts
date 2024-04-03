@@ -114,8 +114,8 @@ export const updateRecipe = [
     .withMessage({ message: "TITLE_IS_EMPTY_STRING", errorCode: 422 })
     .custom(async (title: string, { req }) => {
       const cr = req as CustomRequest
-      const match = await RecipeModel.findOne({ $and: [{ title: title }, { userId: cr.user!.id }] })
-      if (match !== null)
+      const match = await RecipeModel.findOne({ $and: [{ title: title }, { userId: cr.user!.id }]})
+      if (match !== null && match.id != req.params?.recipeId)
         throw new Error('Recipe with this name already exists for this account');
       else
         return true;
